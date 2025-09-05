@@ -1,0 +1,54 @@
+body {
+  background-color: #f3f6fe !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar-dark-primary {
+  background-color: #022847 !important;
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-link {
+  color: #c2c7d0;
+  background-color: #022847;
+  transition: background-color 0.3s;
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-link:hover {
+  background-color: #022847 !important;
+  color: #ffffff !important;
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-link.active {
+  background-color: #022847 !important;
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-link i.right {
+  color: #da6a0f !important;
+}
+
+.sidebar-dark-primary .nav-sidebar .nav-treeview > .nav-item > .nav-link.active i,
+.sidebar-dark-primary .nav-sidebar .nav-treeview > .nav-item > .nav-link:hover i {
+  color: #da6a0f !important;
+}
+
+.form-inline {
+  border-bottom: 1px solid #444;
+}
+.form-control-sidebar {
+  background-color: #1f1f33;
+  color: #fff;
+  border: none;
+}
+.form-control-sidebar::placeholder {
+  color: #ccc;
+}
+
+#sidebarSearch {
+  background-color: #022847 !important;
+}
+
+#sidebarSearchIcon {
+  background-color: #022847 !important;
+}

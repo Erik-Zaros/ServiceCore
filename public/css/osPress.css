@@ -1,0 +1,28 @@
+.card-header {
+    font-weight: bold;
+    background-color: #2e2e48 !important;
+    color: #ffffff;
+    border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.table th {
+    background-color: #2e2e48;
+    color: #ffffff;
+}
+
+.table th {
+    background-color: #2e2e48;
+    color: #ffffff;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table .btn {
+    padding: 5px 10px;
+}
+
+i {
+    color: #da6a0f;
+}

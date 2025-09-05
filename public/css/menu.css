@@ -1,0 +1,14 @@
+.card-sharp {
+    background-color: #fff;
+    border-radius: 0;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-sharp h5 {
+    font-weight: bold;
+    color: #343A40;
+}
+
+i {
+	color: #da6a0f;
+}
