@@ -160,7 +160,12 @@ foreach ($imports as $key => $import) {
 }
 ?>
 
-<?php include __DIR__ . '/ModalLog.php'; ?>
+<script>
+  Shadowbox.init({
+    overlayOpacity: 0.85,
+    modal: true
+  });
+</script>
 
 </body>
 </html>

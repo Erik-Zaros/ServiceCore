@@ -9,7 +9,8 @@ $imports = [
             "../public/css/style.css",
             "../public/css/form.css",
             "../public/css/button.css",
-            "../public/css/link.css"
+            "../public/css/link.css",
+            "../view/shadowbox/shadowbox.css"
         ],
         "js" => [
             "https://code.jquery.com/jquery-3.6.0.min.js",
@@ -18,7 +19,8 @@ $imports = [
             "https://cdn.jsdelivr.net/npm/sweetalert2@11",
             "https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js",
             "../public/js/main.js",
-            "../public/js/logAuditor.js"
+            "../public/js/logAuditor.js",
+            "../view/shadowbox/shadowbox.js"
         ]
     ],
     "usuario" => [
