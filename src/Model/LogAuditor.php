@@ -34,16 +34,16 @@ class LogAuditor
 
         $sql = "
             SELECT
-                l.acao,
-                l.antes,
-                l.depois,
-                to_char(l.data_log, 'DD/MM/YYYY HH24:MI') AS data_log,
-                u.nome AS usuario_nome
-            FROM tbl_log_auditor l
-            LEFT JOIN tbl_usuario u ON u.usuario = l.usuario
-            WHERE l.tabela = '$tabela'
-              AND l.id_registro = '$idRegistro'
-            ORDER BY l.data_log DESC
+                tbl_log_auditor.acao,
+                tbl_log_auditor.antes,
+                tbl_log_auditor.depois,
+                to_char(tbl_log_auditor.data_log, 'DD/MM/YYYY HH24:MI') AS data_log,
+                tbl_usuario.nome AS usuario_nome
+            FROM tbl_log_auditor
+            LEFT JOIN tbl_usuario ON tbl_usuario.usuario = tbl_log_auditor.usuario
+            WHERE tbl_log_auditor.tabela = '$tabela'
+              AND tbl_log_auditor.id_registro = '$idRegistro'
+            ORDER BY tbl_log_auditor.data_log DESC
         ";
 
         $res = pg_query($con, $sql);
