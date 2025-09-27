@@ -59,17 +59,17 @@
               <div class="stat">
                 <i class="bi bi-list-check"></i>
                 <span>OS em andamento</span>
-                <strong>128</strong>
+                <strong>20.220</strong>
               </div>
               <div class="stat">
                 <i class="bi bi-people"></i>
                 <span>Clientes</span>
-                <strong>3.240</strong>
+                <strong>18.240</strong>
               </div>
               <div class="stat">
                 <i class="bi bi-check2-circle"></i>
                 <span>OS finalizadas</span>
-                <strong>9.812</strong>
+                <strong>19.812</strong>
               </div>
             </div>
             <div class="hero-illu"><i class="bi bi-tools"></i></div>
@@ -82,8 +82,8 @@
 
   <section id="recursos" class="py-5">
     <div class="container">
-      <h2 class="text-center fw-bold mb-4">Recursos que aceleram seu atendimento</h2>
-      <p class="text-center text-body-secondary mb-5">Tudo o que você precisa para abrir, acompanhar e finalizar OS com qualidade.</p>
+      <h2 class="text-center text-white fw-bold mb-4">Recursos que aceleram seu atendimento</h2>
+      <p class="text-center text-white mb-5">Tudo o que você precisa para abrir, acompanhar e finalizar OS com qualidade.</p>
       <div class="row g-4">
         <div class="col-md-6 col-lg-4">
           <div class="feature-card shadow-sm h-100">
@@ -157,7 +157,7 @@
             <h3 class="price">R$ 100<span>/mês</span></h3>
             <ul class="list-unstyled mb-4">
               <li><i class="bi bi-check2"></i> Até 500 OS/mês</li>
-              <li><i class="bi bi-check2"></i> Anexos & Evidências</li>
+              <li><i class="bi bi-check2"></i> Peças e Estoque</li>
               <li><i class="bi bi-check2"></i> Relatórios avançados</li>
               <li><i class="bi bi-check2"></i> Suporte por e-mail</li>
             </ul>
@@ -184,7 +184,7 @@
 
   <section id="faq" class="py-5">
     <div class="container">
-      <h2 class="text-center fw-bold mb-4">Perguntas frequentes</h2>
+      <h2 class="text-center text-white fw-bold mb-4">Perguntas frequentes</h2>
       <div class="accordion" id="faqAcc">
         <div class="accordion-item">
           <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1">Posso cancelar quando quiser?</button></h2>

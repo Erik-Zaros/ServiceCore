@@ -38,7 +38,9 @@ function createParticles() {
     'bi-nut-fill',
     'bi-lightning-charge-fill',
     'bi-cpu-fill',
-    'bi-gear-wide-connected'
+    'bi-gear-wide-connected',
+    'bi-wrench-adjustable-circle-fill',
+    'bi-wallet-fill'
   ];
 
   for (let i = 0; i < particleCount; i++) {

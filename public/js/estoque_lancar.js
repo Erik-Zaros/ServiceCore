@@ -153,7 +153,6 @@ $(function () {
     });
   });
 
-  // --- eventos iniciais
   $('#tpProduto, #tpPeca').on('change', alternarTipo);
   limparPainel();
   alternarTipo();
