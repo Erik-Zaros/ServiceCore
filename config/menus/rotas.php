@@ -77,5 +77,15 @@ $rotas = [
                 "link" => "agendamento"
             ]
         ]
+    ],
+    "ticket" => [
+        "titulo" => "Ticket",
+        "icone" => "bi bi-ticket-fill",
+        "submenus" => [
+            [
+                "titulo" => "Exportar Ticket",
+                "link" => "exporta_ticket"
+            ]
+        ]
     ]
 ];

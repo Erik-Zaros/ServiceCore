@@ -43,7 +43,8 @@ CREATE TABLE tbl_os (
     cliente INTEGER REFERENCES tbl_cliente(cliente),
     finalizada BOOLEAN DEFAULT FALSE,
     posto INTEGER REFERENCES tbl_posto(posto),
-    cancelada BOOLEAN DEFAULT FALSE
+    cancelada BOOLEAN DEFAULT FALSE,
+    tecnico INTEGER REFERENCES tbl_usuario(usuario)
 );
 
 CREATE TABLE tbl_posto (
@@ -105,5 +106,18 @@ CREATE TABLE tbl_agendamento (
     os INTEGER REFERENCES tbl_os(os) NOT NULL,
     tecnico INTEGER REFERENCES tbl_usuario(usuario) NOT NULL,
     status VARCHAR(20) DEFAULT 'PENDENTE' CHECK (status IN ('PENDENTE','CONFIRMADO','CONCLUIDO','CANCELADO')),
-    data_input TIMESTAMP DEFAULT NOW()
+    data_input TIMESTAMP DEFAULT NOW(),
+    posto INTEGER REFERENCES tbl_posto(posto) NOT NULL
+);
+
+CREATE TABLE tbl_ticket (
+    ticket SERIAL PRIMARY KEY,
+    os INTEGER REFERENCES tbl_os(os) NOT NULL,
+    agendamento INTEGER REFERENCES tbl_agendamento(agendamento) NOT NULL,
+    status VARCHAR(20) DEFAULT 'ABERTO' CHECK (status IN ('ABERTO', 'EM_ANDAMENTO', 'FINALIZADO', 'CANCELADO')),
+    request JSONB,
+    posto INTEGER REFERENCES tbl_posto(posto) NOT NULL,
+    observacao TEXT,
+    data_input TIMESTAMP DEFAULT NOW(),
+    exportado BOOLEAN DEFAULT FALSE
 );

@@ -71,6 +71,10 @@ $imports = [
         "css" => ["../public/css/agendamento.css"],
         "js" => ["../public/js/agendamento.js"]
 
+    ],
+    "ticket" => [
+        "css" => ["../public/css/ticket.css"],
+        "js" => ["../public/js/ticket.js"]
     ]
 ];
 
