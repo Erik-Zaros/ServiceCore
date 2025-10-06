@@ -42,6 +42,7 @@ ob_start();
       <span class="small-box-footer">&nbsp;</span>
     </div>
   </div>
+</div>
 
 <div class="card shadow-sm mb-4">
   <div class="card-header bg-primary text-white">
