@@ -75,6 +75,10 @@ $imports = [
     "exporta_ticket" => [
         "css" => ["../public/css/exporta_ticket.css"],
         "js" => ["../public/js/exporta_ticket.js"]
+    ],
+    "consulta_ticket" => [
+        "css" => ["../public/css/consulta_ticket.css"],
+        "js" => ["../public/js/consulta_ticket.js"]
     ]
 ];
 

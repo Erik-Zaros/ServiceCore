@@ -63,6 +63,103 @@ class Ticket
         return $lista;
     }
 
+    public static function listarExportados($posto, array $filtros = [])
+    {
+        $con = Db::getConnection();
+        $posto = intval($posto);
+
+        $sql = "
+            SELECT
+            	ticket.ticket,
+                os.os,
+                ticket.status,
+                os.nome_consumidor AS cliente,
+                os.cpf_consumidor AS cpf,
+                to_char(os.data_abertura, 'DD/MM/YYYY') AS data_abertura,
+                CONCAT(p.codigo, ' - ', p.descricao) AS produto,
+                ag.agendamento,
+                to_char(ag.data_agendamento, 'DD/MM/YYYY') AS data_agendamento,
+                ag.hora_inicio,
+                u.nome AS tecnico,
+                to_char(ticket.data_input, 'DD/MM/YYYY') as data_exportado
+            FROM tbl_ticket ticket
+            INNER JOIN tbl_os os ON ticket.os = os.os
+            INNER JOIN tbl_agendamento ag ON ag.agendamento = ticket.agendamento
+            INNER JOIN tbl_produto p ON os.produto = p.produto
+            LEFT JOIN tbl_usuario u ON ag.tecnico = u.usuario
+            WHERE ticket.posto = {$posto}
+            -- AND ticket.exportado IS TRUE
+        ";
+
+        if (!empty($filtros['ticket'])) {
+            $ticket = (int) $filtros['ticket'];
+            $sql .= " AND ticket.ticket = {$ticket}";
+        }
+
+        if (!empty($filtros['os'])) {
+            $os = (int) $filtros['os'];
+            $sql .= " AND os.os = {$os}";
+        }
+
+        if (!empty($filtros['nomeCliente'])) {
+            $nome = pg_escape_string($con, $filtros['nomeCliente']);
+            $sql .= " AND os.nome_consumidor ILIKE '%{$nome}%'";
+        }
+
+        if (!empty($filtros['dataInicio']) && !empty($filtros['dataFim'])) {
+            $dataInicio = pg_escape_string($con, $filtros['dataInicio']);
+            $dataFim    = pg_escape_string($con, $filtros['dataFim']);
+            $sql .= " AND ticket.data_input BETWEEN '{$dataInicio}' AND '{$dataFim}'";
+        }
+
+        if (!empty($filtros['status'])) {
+            $status = $filtros['status'];
+            $sql .= " AND ticket.status = '{$status}'";
+        }
+
+        $sql .= " ORDER BY ticket.ticket ASC";
+
+        $res = pg_query($con, $sql);
+        $lista = [];
+
+        if ($res && pg_num_rows($res) > 0) {
+            while ($row = pg_fetch_assoc($res)) {
+                $lista[] = $row;
+            }
+        }
+
+        return $lista;
+    }
+
+    public static function contarStatusTicket($posto)
+    {
+        $con = Db::getConnection();
+        $posto = intval($posto);
+
+        $sql = "
+            SELECT status, COUNT(*) AS total
+            FROM tbl_ticket
+            WHERE posto = {$posto}
+            GROUP BY status
+        ";
+
+        $res = pg_query($con, $sql);
+        $contagens = [
+            'ABERTO' => 0,
+            'EM_ANDAMENTO' => 0,
+            'FINALIZADO' => 0,
+            'CANCELADO' => 0
+        ];
+
+        if ($res && pg_num_rows($res) > 0) {
+            while ($row = pg_fetch_assoc($res)) {
+                $contagens[$row['status']] = (int) $row['total'];
+            }
+        }
+
+        return $contagens;
+    }
+
 	public static function excluirAgendamento($agendamento, $posto)
 	{
 	    $con = Db::getConnection();

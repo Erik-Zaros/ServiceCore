@@ -6,7 +6,7 @@ $(document).ready(function () {
             $('#ticketTable').DataTable().destroy();
         }
         $.ajax({
-            url: '../public/ticket/listar.php',
+            url: '../public/ticket/listar_nao_exportado.php',
             method: 'GET',
             data: filtros,
             dataType: 'json',

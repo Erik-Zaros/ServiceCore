@@ -85,6 +85,10 @@ $rotas = [
             [
                 "titulo" => "Exportar Ticket",
                 "link" => "exporta_ticket"
+            ],
+            [
+                "titulo" => "Consulta Ticket",
+                "link" => "consulta_ticket"
             ]
         ]
     ]

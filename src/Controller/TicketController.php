@@ -11,6 +11,16 @@ class TicketController
         return Ticket::listarNaoExportados($posto, $filtros);
     }
 
+    public static function listarExportados($posto, array $filtros = [])
+    {
+        return Ticket::listarExportados($posto, $filtros);
+    }
+
+    public static function contarStatusTicket($posto)
+    {
+        return Ticket::contarStatusTicket($posto);
+    }
+
     public static function exportar($os, $agendamento, $posto)
     {
         return Ticket::exportar($os, $agendamento, $posto);
