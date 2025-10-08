@@ -37,6 +37,12 @@ $(document).ready(function () {
                         order: [[0, "asc"]],
                         stripeClasses: ['stripe1', 'stripe2'],
                     });
+                } else {
+                    $('#ticketTable tbody').append(`
+                        <tr>
+                            <td colspan="9" class="text-center">NENHUM AGENDAMENTO PARA EXPORTAR</td>
+                        </tr>
+                    `);
                 }
             }
         });
