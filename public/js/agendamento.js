@@ -36,7 +36,23 @@ $(document).ready(function () {
     },
 
     eventClick: function(info) {
-      alert("Agendamento " + info.event.title + "\nStatus: " + info.event.extendedProps.status);
+      const title = info.event.title;
+      const status = info.event.extendedProps.status;
+
+      Swal.fire({
+        title: `<strong>${title}</strong>`,
+        html: `<p><b>Status:</b> ${status}</p>`,
+        icon: 'info',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#3085d6',
+        background: '#f9f9f9',
+        showClass: {
+          popup: 'animate__animated animate__fadeInDown'
+        },
+        hideClass: {
+          popup: 'animate__animated animate__fadeOutUp'
+        }
+      });
     }
   });
 

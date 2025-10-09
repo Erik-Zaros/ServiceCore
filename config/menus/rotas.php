@@ -40,6 +40,16 @@ $rotas = [
             ]
         ]
     ],
+    "lista_basica" => [
+        "titulo" => "Lista Básica",
+        "icone" => "bi bi-card-list",
+        "submenus" => [
+            [
+                "titulo" => "Lista Básica",
+                "link" => "lista_basica",
+            ]
+        ]
+    ],
     "estoque" => [
         "titulo" => "Estoque",
         "icone" => "bi bi-box2-fill",

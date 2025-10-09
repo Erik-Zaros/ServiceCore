@@ -44,6 +44,10 @@ $imports = [
         "css" => ["../public/css/peca.css"],
         "js" => ["../public/js/peca.js"]
     ],
+    "lista_basica" => [
+        "css" => ["../public/css/lista_basica.css"],
+        "js" => ["../public/js/lista_basica.js"]
+    ],
     "cadastra_movimentacao" => [
         "css" => ["../public/css/estoque.css"],
         "js" => ["../public/js/estoque_lancar.js"]

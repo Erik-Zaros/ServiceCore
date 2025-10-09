@@ -121,3 +121,12 @@ CREATE TABLE tbl_ticket (
     data_input TIMESTAMP DEFAULT NOW(),
     exportado BOOLEAN DEFAULT FALSE
 );
+
+CREATE TABLE tbl_lista_basica (
+    lista_basica SERIAL PRIMARY KEY,
+    produto INTEGER NOT NULL REFERENCES tbl_produto(produto) ON DELETE CASCADE,
+    peca INTEGER NOT NULL REFERENCES tbl_peca(peca) ON DELETE CASCADE,
+    posto INTEGER REFERENCES tbl_posto(posto),
+    data_input TIMESTAMP DEFAULT NOW(),
+    UNIQUE (produto, peca)
+);
