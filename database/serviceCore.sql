@@ -44,7 +44,14 @@ CREATE TABLE tbl_os (
     finalizada BOOLEAN DEFAULT FALSE,
     posto INTEGER REFERENCES tbl_posto(posto),
     cancelada BOOLEAN DEFAULT FALSE,
-    tecnico INTEGER REFERENCES tbl_usuario(usuario)
+    tecnico INTEGER REFERENCES tbl_usuario(usuario),
+    cep_consumidor VARCHAR(10),
+    endereco_consumidor VARCHAR(255),
+    bairro_consumidor VARCHAR(255),
+    numero_consumidor VARCHAR(10),
+    cidade_consumidor VARCHAR(255),
+    estado_consumidor VARCHAR(10),
+    nota_fiscal VARCHAR(50)
 );
 
 CREATE TABLE tbl_posto (
@@ -129,4 +136,13 @@ CREATE TABLE tbl_lista_basica (
     posto INTEGER REFERENCES tbl_posto(posto),
     data_input TIMESTAMP DEFAULT NOW(),
     UNIQUE (produto, peca)
+);
+
+CREATE TABLE tbl_os_item (
+    os_item SERIAL PRIMARY KEY,
+    os INTEGER NOT NULL REFERENCES tbl_os(os),
+    peca INTEGER NOT NULL REFERENCES tbl_peca(peca),
+    quantidade INTEGER NOT NULL,
+    posto INTEGER REFERENCES tbl_posto(posto),
+    data_input TIMESTAMP DEFAULT NOW()
 );

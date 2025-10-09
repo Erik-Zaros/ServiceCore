@@ -26,6 +26,13 @@ class Os
             $produto = intval($this->dados['produto']);
             $posto = intval($this->posto);
             $data_abertura = pg_escape_string($this->dados['data_abertura']);
+            $cep = pg_escape_string($this->dados['cep_consumidor'] ?? '');
+            $endereco = pg_escape_string($this->dados['endereco_consumidor'] ?? '');
+            $bairro = pg_escape_string($this->dados['bairro_consumidor'] ?? '');
+            $numero = pg_escape_string($this->dados['numero_consumidor'] ?? '');
+            $cidade = pg_escape_string($this->dados['cidade_consumidor'] ?? '');
+            $estado = pg_escape_string($this->dados['estado_consumidor'] ?? '');
+            $nota_fiscal = pg_escape_string($this->dados['nota_fiscal'] ?? '');
 
             $sqlCliente = "SELECT cliente, nome FROM tbl_cliente WHERE cpf = '{$cpf}' AND posto = {$posto}";
             $res = pg_query($con, $sqlCliente);
@@ -35,27 +42,76 @@ class Os
                 $cliente_id = $cliente['cliente'];
 
                 if ($cliente['nome'] !== $nome) {
-                    $sqlUpdate = "UPDATE tbl_cliente SET nome = '{$nome}' WHERE cliente = {$cliente_id}";
-                    pg_query($con, $sqlUpdate);
+                    pg_query($con, "UPDATE tbl_cliente SET nome = '{$nome}' WHERE cliente = {$cliente_id}");
                 }
             } else {
-                $sqlInsertCliente = "INSERT INTO tbl_cliente (nome, cpf, posto) VALUES ('{$nome}', '{$cpf}', {$posto}) RETURNING cliente";
+                $sqlInsertCliente = "INSERT INTO tbl_cliente (nome, cpf, posto) 
+                                     VALUES ('{$nome}', '{$cpf}', {$posto}) 
+                                     RETURNING cliente";
                 $res_insert = pg_query($con, $sqlInsertCliente);
                 if (!$res_insert) throw new \Exception("Erro ao cadastrar cliente.");
                 $cliente_row = pg_fetch_assoc($res_insert);
                 $cliente_id = $cliente_row['cliente'];
             }
 
-            $sqlInsertOS = "INSERT INTO tbl_os (data_abertura, nome_consumidor, cpf_consumidor, produto, cliente, posto)
-                            VALUES ('{$data_abertura}', '{$nome}', '{$cpf}', {$produto}, {$cliente_id}, {$posto})";
+            $sqlInsertOS = "
+                INSERT INTO tbl_os (
+                    data_abertura, nome_consumidor, cpf_consumidor, produto, cliente, posto,
+                    cep_consumidor, endereco_consumidor, bairro_consumidor, numero_consumidor,
+                    cidade_consumidor, estado_consumidor, nota_fiscal
+                )
+                VALUES (
+                    '{$data_abertura}', '{$nome}', '{$cpf}', {$produto}, {$cliente_id}, {$posto},
+                    '{$cep}', '{$endereco}', '{$bairro}', '{$numero}', '{$cidade}', '{$estado}', '{$nota_fiscal}'
+                )
+                RETURNING os
+            ";
             $res_os = pg_query($con, $sqlInsertOS);
 
-            if (!$res_os) {
-                return ['status' => 'error', 'message' => 'Erro ao cadastrar OS.'];
+            if (!$res_os) throw new \Exception('Erro ao cadastrar OS.');
+
+            $row_os = pg_fetch_assoc($res_os);
+            $os_id = $row_os['os'];
+
+            if (!empty($this->dados['pecas'])) {
+
+                $pecas = json_decode($this->dados['pecas'], true);
+
+                if (is_array($pecas)) {
+                    foreach ($pecas as $item) {
+                        $peca = intval($item['peca']);
+                        $quantidade = intval($item['quantidade']);
+
+                        $sqlCheckPeca = "SELECT 1
+                                         FROM tbl_lista_basica
+                                         WHERE produto = {$produto}
+                                         AND peca = {$peca}
+                                         LIMIT 1
+                                        ";
+                        $resCheckPeca = pg_query($con, $sqlCheckPeca);
+
+                        if (pg_num_rows($resCheckPeca) === 0) {
+                            $sqlNomePeca = "SELECT concat(codigo, ' - ', descricao) as nome_peca FROM tbl_peca WHERE peca = {$peca}";
+                            $resNomePeca = pg_query($con, $sqlNomePeca);
+
+                            if (pg_num_rows($resNomePeca) > 0) {
+                                $row = pg_fetch_assoc($resNomePeca);
+                                $nomePeca = $row['nome_peca'];
+                                throw new \Exception("A peça '{$nomePeca}' não pertence ao produto selecionado.");
+                            }
+                        }
+
+                        $sqlItem = "
+                            INSERT INTO tbl_os_item (os, peca, quantidade, posto)
+                            VALUES ({$os_id}, {$peca}, {$quantidade}, {$posto})
+                        ";
+                        pg_query($con, $sqlItem);
+                    }
+                }
             }
 
             pg_query($con, 'COMMIT');
-            return ['status' => 'success', 'message' => 'OS cadastrada com sucesso!'];
+            return ['status' => 'success', 'message' => 'OS cadastrada com sucesso!', 'os' => $os_id];
         } catch (\Exception $e) {
             pg_query($con, 'ROLLBACK');
             return ['status' => 'error', 'message' => $e->getMessage()];
@@ -74,12 +130,20 @@ class Os
             $produto = intval($this->dados['produto']);
             $posto = intval($this->posto);
             $data_abertura = pg_escape_string($this->dados['data_abertura']);
+            $cep = pg_escape_string($this->dados['cep_consumidor'] ?? '');
+            $endereco = pg_escape_string($this->dados['endereco_consumidor'] ?? '');
+            $bairro = pg_escape_string($this->dados['bairro_consumidor'] ?? '');
+            $numero = pg_escape_string($this->dados['numero_consumidor'] ?? '');
+            $cidade = pg_escape_string($this->dados['cidade_consumidor'] ?? '');
+            $estado = pg_escape_string($this->dados['estado_consumidor'] ?? '');
+            $nota_fiscal = pg_escape_string($this->dados['nota_fiscal'] ?? '');
 
-            $sqlCheck = "SELECT finalizada FROM tbl_os WHERE os = {$os}";
+            $sqlCheck = "SELECT finalizada, cancelada FROM tbl_os WHERE os = {$os}";
             $res_check = pg_query($con, $sqlCheck);
 
             if (pg_num_rows($res_check) === 0) throw new \Exception("OS não encontrada.");
             $row = pg_fetch_assoc($res_check);
+
             if ($row['finalizada'] === 't') throw new \Exception("OS já finalizada. Não é possível editar.");
             if ($row['cancelada'] === 't') throw new \Exception("OS já cancelada. Não é possível editar.");
 
@@ -91,24 +155,86 @@ class Os
                 $cliente_id = $cliente['cliente'];
 
                 if ($cliente['nome'] !== $nome) {
-                    $sqlUpdate = "UPDATE tbl_cliente SET nome = '{$nome}' WHERE cliente = {$cliente_id}";
-                    pg_query($con, $sqlUpdate);
+                    pg_query($con, "UPDATE tbl_cliente SET nome = '{$nome}' WHERE cliente = {$cliente_id}");
                 }
             } else {
-                $sqlInsert = "INSERT INTO tbl_cliente (nome, cpf, posto) VALUES ('{$nome}', '{$cpf}', {$posto}) RETURNING cliente";
+                $sqlInsert = "INSERT INTO tbl_cliente (nome, cpf, posto) 
+                              VALUES ('{$nome}', '{$cpf}', {$posto}) RETURNING cliente";
                 $res_insert = pg_query($con, $sqlInsert);
                 $row_new = pg_fetch_assoc($res_insert);
                 $cliente_id = $row_new['cliente'];
             }
 
-            $sqlUpdateOS = "UPDATE tbl_os SET data_abertura = '{$data_abertura}', nome_consumidor = '{$nome}', cpf_consumidor = '{$cpf}', produto = {$produto}, cliente = {$cliente_id}
-                            WHERE os = {$os}";
+            $sqlUpdateOS = "
+                UPDATE tbl_os SET
+                    data_abertura = '{$data_abertura}',
+                    nome_consumidor = '{$nome}',
+                    cpf_consumidor = '{$cpf}',
+                    produto = {$produto},
+                    cliente = {$cliente_id},
+                    cep_consumidor = '{$cep}',
+                    endereco_consumidor = '{$endereco}',
+                    bairro_consumidor = '{$bairro}',
+                    numero_consumidor = '{$numero}',
+                    cidade_consumidor = '{$cidade}',
+                    estado_consumidor = '{$estado}',
+                    nota_fiscal = '{$nota_fiscal}'
+                WHERE os = {$os}
+            ";
             $res_update = pg_query($con, $sqlUpdateOS);
 
             if (!$res_update) throw new \Exception("Erro ao atualizar OS.");
 
+            if (!empty($this->dados['pecas'])) {
+                $pecas = json_decode($this->dados['pecas'], true);
+
+                if (is_array($pecas)) {
+                    foreach ($pecas as $item) {
+                        $peca = intval($item['peca']);
+                        $quantidade = intval($item['quantidade']);
+
+                        $sqlCheckPeca = "SELECT 1
+                                         FROM tbl_lista_basica
+                                         WHERE produto = {$produto}
+                                         AND peca = {$peca}
+                                         LIMIT 1
+                                        ";
+                        $resCheckPeca = pg_query($con, $sqlCheckPeca);
+
+                        if (pg_num_rows($resCheckPeca) === 0) {
+                            $sqlNomePeca = "SELECT concat(codigo, ' - ', descricao) as nome_peca FROM tbl_peca WHERE peca = {$peca}";
+                            $resNomePeca = pg_query($con, $sqlNomePeca);
+
+                            if (pg_num_rows($resNomePeca) > 0) {
+                                $row = pg_fetch_assoc($resNomePeca);
+                                $nomePeca = $row['nome_peca'];
+                                throw new \Exception("A peça '{$nomePeca}' não pertence ao produto selecionado.");
+                            }
+                        }
+
+                        $sqlCheck = "SELECT os_item FROM tbl_os_item WHERE os = {$os} AND peca = {$peca}";
+                        $resCheck = pg_query($con, $sqlCheck);
+
+                        if (pg_num_rows($resCheck) > 0) {
+                            $sqlUpdateItem = "
+                                UPDATE tbl_os_item
+                                SET quantidade = {$quantidade}
+                                WHERE os = {$os} AND peca = {$peca}
+                            ";
+                            $resUpdateItem = pg_query($con, $sqlUpdateItem);
+                        } else {
+                            $sqlInsertItem = "
+                                INSERT INTO tbl_os_item (os, peca, quantidade, posto)
+                                VALUES ({$os}, {$peca}, {$quantidade}, {$posto})
+                            ";
+                            $resInsertIntem = pg_query($con, $sqlInsertItem);
+                        }
+                    }
+                }
+            }
+
             pg_query($con, 'COMMIT');
-            return ['status' => 'success', 'message' => 'OS atualizada com sucesso!'];
+            return ['status' => 'success', 'message' => 'OS atualizada com sucesso!', 'os' => $os];
         } catch (\Exception $e) {
             pg_query($con, 'ROLLBACK');
             return ['status' => 'error', 'message' => $e->getMessage()];
@@ -174,10 +300,14 @@ class Os
         $con = Db::getConnection();
         $os = intval($os);
         $sql = "SELECT os.os, os.data_abertura, os.nome_consumidor, os.cpf_consumidor,
-                       p.descricao AS produto, os.finalizada, os.produto
+                       os.produto, p.descricao AS produto_descricao,
+                       os.cep_consumidor, os.endereco_consumidor, os.bairro_consumidor,
+                       os.numero_consumidor, os.cidade_consumidor, os.estado_consumidor,
+                       os.nota_fiscal, os.finalizada, os.cancelada
                 FROM tbl_os os
                 INNER JOIN tbl_produto p ON os.produto = p.produto
-                WHERE os.os = {$os}";
+                WHERE os.os = {$os}
+            ";
 
         $res = pg_query($con, $sql);
         return pg_num_rows($res) > 0 ? pg_fetch_assoc($res) : null;
@@ -243,26 +373,52 @@ class Os
         $os = intval($os);
         $posto = intval($posto);
 
-        $sql = "SELECT
-                    os.os,
-                    to_char(os.data_abertura, 'DD/MM/YYYY') AS data_abertura,
-                    os.nome_consumidor,
-                    os.cpf_consumidor,
-                    c.cep,
-                    c.endereco,
-                    c.bairro,
-                    c.numero,
-                    c.cidade,
-                    c.estado,
-                    CONCAT(p.codigo, ' - ', p.descricao) AS codigo_descricao,
-                    os.finalizada,
-                    os.cancelada
-                FROM tbl_os os
-                INNER JOIN tbl_produto p ON os.produto = p.produto
-                LEFT JOIN tbl_cliente c ON os.cliente = c.cliente
-                WHERE os.os = {$os} AND os.posto = {$posto}";
+        $sql = "
+            SELECT
+                os.os,
+                to_char(os.data_abertura, 'DD/MM/YYYY') AS data_abertura,
+                os.nome_consumidor,
+                os.cpf_consumidor,
+                os.cep_consumidor,
+                os.endereco_consumidor,
+                os.bairro_consumidor,
+                os.numero_consumidor,
+                os.cidade_consumidor,
+                os.estado_consumidor,
+                os.nota_fiscal,
+                CONCAT(p.codigo, ' - ', p.descricao) AS produto_codigo_descricao,
+                os.finalizada,
+                os.cancelada
+            FROM tbl_os os
+            INNER JOIN tbl_produto p ON os.produto = p.produto
+            WHERE os.os = {$os} AND os.posto = {$posto}
+        ";
 
         $res = pg_query($con, $sql);
-        return pg_num_rows($res) > 0 ? pg_fetch_assoc($res) : null;
+        if (pg_num_rows($res) === 0) {
+            return null;
+        }
+
+        $dados = pg_fetch_assoc($res);
+
+        $sqlItens = "
+            SELECT i.os_item, i.peca, i.quantidade, p.codigo, p.descricao
+            FROM tbl_os_item i
+            INNER JOIN tbl_peca p ON p.peca = i.peca
+            WHERE i.os = {$os}
+            ORDER BY p.descricao
+        ";
+
+        $resItens = pg_query($con, $sqlItens);
+        $itens = [];
+        if ($resItens && pg_num_rows($resItens) > 0) {
+            while ($row = pg_fetch_assoc($resItens)) {
+                $itens[] = $row;
+            }
+        }
+
+        $dados['pecas'] = $itens;
+
+        return $dados;
     }
 }
