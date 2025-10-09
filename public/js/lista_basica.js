@@ -85,11 +85,19 @@ $(document).ready(function () {
                 carregarPecas(produto);
                 $('#buscarPeca').val('');
                 $('#listaPecas').hide();
-            } else {
+            } else if (resp.error) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Já existe!',
-                    text: 'Esta peça já está amarrada ao produto.',
+                    text: 'Esta peça já está amarrada ao produto não é possível lançar novamente!',
+                    timer: 2500,
+                    showConfirmButton: false
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Falha',
+                    text: 'Falha ao processar',
                     timer: 1800,
                     showConfirmButton: false
                 });

@@ -40,6 +40,13 @@ class ListaBasica
         $pecaId = intval($pecaId);
         $posto = intval($posto);
 
+        $sql_valida = "SELECT peca FROM tbl_lista_basica WHERE posto = $posto AND produto = $produtoId";
+        $res_valida = pg_query($con, $sql_valida);
+
+        if (pg_num_rows($res_valida) > 0) {
+            return ['error' => true];
+        }
+
         $sql = "
             INSERT INTO tbl_lista_basica (produto, peca, posto)
             VALUES ({$produtoId}, {$pecaId}, {$posto})
