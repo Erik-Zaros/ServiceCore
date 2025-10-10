@@ -67,7 +67,8 @@ CREATE TABLE tbl_usuario (
   nome TEXT NOT NULL,
   posto INTEGER REFERENCES tbl_posto(posto),
   ativo BOOLEAN DEFAULT TRUE,
-  tecnico BOOLEAN DEFAULT FALSE
+  tecnico BOOLEAN DEFAULT FALSE,
+  master BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE tbl_log_auditor (

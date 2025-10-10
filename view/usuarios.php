@@ -37,11 +37,18 @@ ob_start();
                         <label class="form-check-label" for="ativo">Usuário Ativo</label>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <label for="tecnico" class="form-label d-block">Técnico</label>
                     <div class="form-check form-switch mt-2">
                         <input class="form-check-input" type="checkbox" id="tecnico" name="tecnico">
                         <label class="form-check-label" for="tecnico">Usuário Técnico</label>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label for="master" class="form-label d-block">Master</label>
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" id="master" name="master">
+                        <label class="form-check-label" for="master">Usuário Master</label>
                     </div>
                 </div>
             </div>
@@ -63,6 +70,7 @@ ob_start();
                     <th>Nome</th>
                     <th>Ativo</th>
                     <th>Técnico</th>
+                    <th>Master</th>
                     <th>Ações</th>
                 </tr>
             </thead>

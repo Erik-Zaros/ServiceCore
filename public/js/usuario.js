@@ -20,6 +20,8 @@ function carregarUsuarios() {
                             </td>
                             <td> ${usuario.tecnico === 't' || usuario.tecnico === true ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>'}
                             </td>
+                            <td> ${usuario.master === 't' || usuario.master === true ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>'}
+                            </td>
                             <td>
                                 <button class="btn btn-warning btn-sm editar" data-usuario="${usuario.usuario}">Editar</button>
                                 <button class='btn btn-info btn-sm btn-log-auditor' data-id='${usuario.usuario}'data-tabela='tbl_usuario'>Ver Log</button>
@@ -98,6 +100,7 @@ $(document).ready(function () {
                 $('#senha').val('');
                 $('#ativo').prop('checked', usuario.ativo === 't' || usuario.ativo === true);
                 $('#tecnico').prop('checked', usuario.tecnico === 't' || usuario.tecnico === true);
+                $('#master').prop('checked', usuario.master === 't' || usuario.master === true);
 
                 $('#login').prop('readonly', true);
 
