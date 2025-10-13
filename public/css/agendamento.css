@@ -33,3 +33,16 @@
 i {
     color: #da6a0f;
 }
+
+
+a {
+  text-decoration: none;
+  color: #5a7aa5;
+  font-weight: 600;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #2d3d52;
+}
