@@ -58,3 +58,8 @@ body {
   height: 38px;
   line-height: 1;
 }
+
+.brand-link {
+	text-decoration: none;
+}
+

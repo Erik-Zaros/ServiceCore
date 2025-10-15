@@ -100,7 +100,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
     <a class="brand-link text-center">
-      <span class="brand-text font-weight-light">ServiceCore</span>
+      <span class="brand-text">ServiceCore</span>
     </a>
 
     <div class="sidebar">
