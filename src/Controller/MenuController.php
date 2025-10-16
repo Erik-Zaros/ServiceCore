@@ -59,6 +59,12 @@ class MenuController
             $res['os_canceladas'] = 0;
         }
 
+        $sqlAgendamento = "SELECT COUNT(1) FROM tbl_agendamento WHERE posto = $1";
+        $res['agendamento'] = self::conta($con, $sqlAgendamento, [$posto]);
+
+        $sqlTicket = "SELECT COUNT(1) FROM tbl_ticket WHERE posto = $1";
+        $res['ticket'] = self::conta($con, $sqlTicket, [$posto]);
+
         return $res;
     }
 

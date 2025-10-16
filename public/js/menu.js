@@ -120,6 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const pecas = Number(dados.pecas) || 0;
             const ordensServico = Number(dados.ordens_servico) || 0;
             const usuarios = Number(dados.usuarios) || 0;
+            const agendamento = Number(dados.agendamento) || 0;
+            const ticket = Number(dados.ticket) || 0;
 
             Highcharts.chart('grafico-colunas', {
                 chart: {
@@ -132,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     text: 'Resumo de Registros'
                 },
                 xAxis: {
-                    categories: ['Usuários', 'Clientes', 'Produtos', 'Peças', 'Ordens de Serviço'],
+                    categories: ['Usuários', 'Clientes', 'Produtos', 'Peças', 'Ordens de Serviço', 'Agendamento', 'Ticket'],
                     title: {
                         text: null
                     }
@@ -156,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
                 series: [{
                     name: 'Registros',
-                    data: [usuarios, clientes, produtos, pecas, ordensServico],
+                    data: [usuarios, clientes, produtos, pecas, ordensServico, agendamento, ticket],
                     color: '#2e2e48'
                 }]
             });
