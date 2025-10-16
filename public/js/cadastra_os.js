@@ -1,15 +1,12 @@
 $(document).ready(function () {
   const urlParams = new URLSearchParams(window.location.search);
   const osParam = urlParams.get("os");
-  const page = window.location.pathname.split("/").pop();
 
-  if (page === "cadastra_os") {
     if (osParam) {
       carregarDadosOS(osParam);
     } else {
       carregarProdutos();
     }
-  }
 
   function carregarDadosOS(os) {
     $.ajax({
