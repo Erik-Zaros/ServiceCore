@@ -303,9 +303,10 @@ class Os
                        os.produto, p.descricao AS produto_descricao,
                        os.cep_consumidor, os.endereco_consumidor, os.bairro_consumidor,
                        os.numero_consumidor, os.cidade_consumidor, os.estado_consumidor,
-                       os.nota_fiscal, os.finalizada, os.cancelada
+                       os.nota_fiscal, os.finalizada, os.cancelada, u.nome as nome_tecnico
                 FROM tbl_os os
                 INNER JOIN tbl_produto p ON os.produto = p.produto
+                LEFT JOIN tbl_usuario u ON os.tecnico = u.usuario
                 WHERE os.os = {$os}
             ";
 

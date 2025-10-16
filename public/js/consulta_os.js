@@ -18,10 +18,7 @@ $(document).ready(function () {
                         var finalizarButton = os.finalizada ? '' : '<button class="btn btn-success btn-sm finalizar-os" data-os="' + os.os + '">Finalizar</button>';
                     }
 
-                    if (os.finalizada != true || os.cancelada != true) {
-                        var alterarButton = '<a href="cadastra_os?os=${os.os}" class="btn btn-warning btn-sm">Alterar</a>';
-                    }
-
+                    var alterarButton = '<a href=cadastra_os?os='+ os.os +' class="btn btn-warning btn-sm">Alterar</a>';
                     var canceladaBadge = os.cancelada ? '<span class="badge bg-danger">Cancelada</span>' : '';
                     var finalizadaBadge = os.finalizada ? '<span class="badge bg-success">Finalizada</span>' : '';
 
@@ -34,8 +31,8 @@ $(document).ready(function () {
                             <td>${os.data_abertura}</td>
                             <td>
                                 ${canceladaBadge}
+                                ${os.finalizada == false && os.cancelada == false ? alterarButton : ''}
                                 ${os.finalizada != true ? canceladaButton : ''}
-                                ${os.finalizada != true || os.cancelada != true ? '' : alterarButton}
                                 ${os.cancelada != true ? finalizarButton : ''}
                                 ${finalizadaBadge}
                             </td>
@@ -72,10 +69,7 @@ $(document).ready(function () {
                         var finalizarButton = os.finalizada ? '' : '<button class="btn btn-success btn-sm finalizar-os" data-os="' + os.os + '">Finalizar</button>';
                     }
 
-                    if (os.finalizada != true || os.cancelada != true) {
-                        var alterarButton = '<a href="cadastra_os?os=${os.os}" class="btn btn-warning btn-sm">Alterar</a>';
-                    }
-
+                    var alterarButton = '<a href=cadastra_os?os='+ os.os +' class="btn btn-warning btn-sm">Alterar</a>';
                     var canceladaBadge = os.cancelada ? '<span class="badge bg-danger">Cancelada</span>' : '';
                     var finalizadaBadge = os.finalizada ? '<span class="badge bg-success">Finalizada</span>' : '';
 
@@ -88,8 +82,8 @@ $(document).ready(function () {
                                 <td>${os.data_abertura}</td>
                                 <td>
                                     ${canceladaBadge}
+                                    ${os.finalizada == false && os.cancelada == false ? alterarButton : ''}
                                     ${os.finalizada != true ? canceladaButton : ''}
-                                    ${os.finalizada != true || os.cancelada != true ? '' : alterarButton}
                                     ${os.cancelada != true ? finalizarButton : ''}
                                     ${finalizadaBadge}
                                 </td>

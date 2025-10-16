@@ -38,6 +38,13 @@ $(document).ready(function () {
         $("#cidade_consumidor").val(data.cidade_consumidor);
         $("#estado_consumidor").val(data.estado_consumidor);
         $("#nota_fiscal").val(data.nota_fiscal);
+
+        if (data.nome_tecnico.length > 0) {
+          $("#tecnico").val(data.nome_tecnico);
+          $("#tecnico").prop('disabled', true);
+          $('#campo_tecnico').show();
+        }
+
         carregarProdutos(data.produto);
         carregarPecas(os);
       }
@@ -186,6 +193,12 @@ $(document).ready(function () {
     select: function (event, ui) {
       $("#nome_consumidor").val(ui.item.value);
       $("#cpf_consumidor").val(ui.item.cpf);
+      $("#cep_consumidor").val(ui.item.cep);
+      $("#endereco_consumidor").val(ui.item.endereco);
+      $("#numero_consumidor").val(ui.item.numero);
+      $("#bairro_consumidor").val(ui.item.bairro);
+      $("#cidade_consumidor").val(ui.item.cidade);
+      $("#estado_consumidor").val(ui.item.estado);
       return false;
     },
   });
@@ -268,5 +281,44 @@ $(document).ready(function () {
 
   $(document).on("click", ".removerPeca", function () {
     $(this).closest("tr").remove();
+  });
+
+  $('#cep_consumidor').on('blur', function () {
+      const cep = $('#cep_consumidor').val().replace('-', '');
+      if (cep.length === 8) {
+          $.ajax({
+              url: '../public/cep/buscar.php',
+              method: 'POST',
+              data: { cep: cep },
+              success: function (data) {
+                  const endereco = JSON.parse(data);
+                  if (!endereco.erro) {
+                      $('#endereco_consumidor').val(endereco.logradouro || '');
+                      $('#bairro_consumidor').val(endereco.bairro || '');
+                      $('#cidade_consumidor').val(endereco.localidade || '');
+                      $('#estado_consumidor').val(endereco.uf || '');
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Erro!',
+                          text: 'CEP inválido!',
+                      });
+                  }
+              },
+              error: function (xhr, status, error) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Erro!',
+                      text: 'Erro ao buscar CEP.',
+                  });
+              }
+          });
+      } else {
+          Swal.fire({
+              icon: 'error',
+              title: 'Erro!',
+              text: 'CEP deve ter 8 dígitos.',
+          });
+      }
   });
 });

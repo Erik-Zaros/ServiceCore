@@ -24,9 +24,13 @@ ob_start();
         <label for="data_abertura" class="form-label">Data de Abertura</label>
         <input type="date" class="form-control" id="data_abertura" name="data_abertura" required>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <label for="nota_fiscal" class="form-label">Nota Fiscal</label>
         <input type="text" class="form-control" id="nota_fiscal" name="nota_fiscal">
+      </div>
+      <div class="col-md-4" id="campo_tecnico" style="display: none;">
+        <label for="nota_fiscal" class="form-label">Técnico</label>
+        <input type="text" class="form-control" id="tecnico" name="tecnico">
       </div>
     </div>
   </div>
@@ -37,27 +41,46 @@ ob_start();
     <i class="bi bi-person"></i> Informações do Consumidor
   </div>
   <div class="card-body">
+
     <div class="row mb-3">
       <div class="col-md-6">
         <label for="nome_consumidor" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="nome_consumidor" name="nome_consumidor" required>
+        <input type="text" class="form-control" id="nome_consumidor" name="nome_consumidor" placeholder="Nome" required>
       </div>
       <div class="col-md-6">
         <label for="cpf_consumidor" class="form-label">CPF</label>
-        <input type="text" class="form-control" id="cpf_consumidor" name="cpf_consumidor" required>
+        <input type="text" class="form-control" id="cpf_consumidor" name="cpf_consumidor" placeholder="CPF" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="cep_consumidor" class="form-label">CEP</label>
+        <input type="text" class="form-control" id="cep_consumidor" name="cep_consumidor" placeholder="CEP">
+      </div>
+      <div class="col-md-6">
+        <label for="endereco_consumidor" class="form-label">Endereço</label>
+        <input type="text" class="form-control" id="endereco_consumidor" name="endereco_consumidor" placeholder="Endereço">
+      </div>
+      <div class="col-md-3">
+        <label for="numero_consumidor" class="form-label">Número</label>
+        <input type="text" class="form-control" id="numero_consumidor" name="numero_consumidor" placeholder="Número">
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-3"><input type="text" class="form-control" id="cep_consumidor" name="cep_consumidor" placeholder="CEP"></div>
-      <div class="col-md-6"><input type="text" class="form-control" id="endereco_consumidor" name="endereco_consumidor" placeholder="Endereço"></div>
-      <div class="col-md-3"><input type="text" class="form-control" id="numero_consumidor" name="numero_consumidor" placeholder="Número"></div>
-    </div>
-
-    <div class="row mt-2">
-      <div class="col-md-5"><input type="text" class="form-control" id="bairro_consumidor" name="bairro_consumidor" placeholder="Bairro"></div>
-      <div class="col-md-5"><input type="text" class="form-control" id="cidade_consumidor" name="cidade_consumidor" placeholder="Cidade"></div>
-      <div class="col-md-2"><input type="text" class="form-control" id="estado_consumidor" name="estado_consumidor" placeholder="UF"></div>
+      <div class="col-md-5">
+        <label for="bairro_consumidor" class="form-label">Bairro</label>
+        <input type="text" class="form-control" id="bairro_consumidor" name="bairro_consumidor" placeholder="Bairro">
+      </div>
+      <div class="col-md-5">
+        <label for="cidade_consumidor" class="form-label">Cidade</label>
+        <input type="text" class="form-control" id="cidade_consumidor" name="cidade_consumidor" placeholder="Cidade">
+      </div>
+      <div class="col-md-2">
+        <label for="estado_consumidor" class="form-label">UF</label>
+        <input type="text" class="form-control" id="estado_consumidor" name="estado_consumidor" placeholder="UF">
+      </div>
     </div>
   </div>
 </div>

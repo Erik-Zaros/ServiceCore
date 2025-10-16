@@ -183,11 +183,20 @@ class Cliente
         $termo = pg_escape_string($termo);
         $posto = intval($posto);
 
-        $sql = "SELECT nome, cpf, cep FROM tbl_cliente
-                WHERE cep IS NOT NULL AND cep <> ''
+        $sql = "SELECT nome,
+                       cpf,
+                       cep,
+                       endereco,
+                       bairro,
+                       numero,
+                       cidade,
+                       estado
+                FROM tbl_cliente
+                WHERE cep IS NOT NULL
                 AND nome ILIKE '%{$termo}%'
                 AND posto = {$posto}
-                ORDER BY nome LIMIT 20";
+                ORDER BY nome LIMIT 20
+             ";
         $res = pg_query($con, $sql);
 
         $sugestoes = [];
@@ -196,7 +205,12 @@ class Cliente
                 'label' => $row['nome'] . " (" . $row['cpf'] . ")",
                 'value' => $row['nome'],
                 'cpf'   => $row['cpf'],
-                'cep'   => $row['cep']
+                'cep'   => $row['cep'],
+                'endereco'  => $row['endereco'],
+                'bairro'    => $row['bairro'],
+                'numero'    => $row['numero'],
+                'cidade'    => $row['cidade'],
+                'estado'    => $row['estado'],
             ];
         }
         return $sugestoes;
