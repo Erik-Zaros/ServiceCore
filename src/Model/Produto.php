@@ -54,7 +54,8 @@ class Produto
                 'insert',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
             return ['status' => 'success', 'message' => 'Produto cadastrado com sucesso!'];
@@ -127,7 +128,8 @@ class Produto
                 'update',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
         return ['status' => 'success', 'message' => 'Produto atualizado com sucesso!'];

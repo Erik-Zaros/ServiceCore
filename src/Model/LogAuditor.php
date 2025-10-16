@@ -6,7 +6,7 @@ use App\Core\Db;
 
 class LogAuditor
 {
-    public static function registrar(string $tabela, string $idRegistro, string $acao, array $antes = null, array $depois = null, int $usuarioId)
+    public static function registrar(string $tabela, string $idRegistro, string $acao, array $antes = null, array $depois = null, int $usuarioId, int $postoId)
     {
         $con = Db::getConnection();
 
@@ -14,21 +14,22 @@ class LogAuditor
         $depoisJson = $depois ? "'" . pg_escape_string(json_encode($depois, JSON_UNESCAPED_UNICODE)) . "'" : "NULL";
 
         $sql = "
-            INSERT INTO tbl_log_auditor (tabela, id_registro, acao, antes, depois, usuario)
+            INSERT INTO tbl_log_auditor (tabela, id_registro, acao, antes, depois, usuario, posto)
             VALUES (
                 '{$tabela}',
                 '{$idRegistro}',
                 '{$acao}',
                 {$antesJson},
                 {$depoisJson},
-                {$usuarioId}
+				{$usuarioId},
+				{$postoId}
             );
         ";
 
         pg_query($con, $sql);
     }
 
-    public static function buscarPorRegistro(string $tabela, string $idRegistro): array
+    public static function buscarPorRegistro(string $tabela, string $idRegistro, int $postoId): array
     {
         $con = Db::getConnection();
 
@@ -42,7 +43,8 @@ class LogAuditor
             FROM tbl_log_auditor
             LEFT JOIN tbl_usuario ON tbl_usuario.usuario = tbl_log_auditor.usuario
             WHERE tbl_log_auditor.tabela = '$tabela'
-              AND tbl_log_auditor.id_registro = '$idRegistro'
+			AND tbl_log_auditor.id_registro = '$idRegistro'
+			AND tbl_log_auditor.posto = $postoId
             ORDER BY tbl_log_auditor.data_log DESC
         ";
 

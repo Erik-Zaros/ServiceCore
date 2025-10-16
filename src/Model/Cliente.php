@@ -64,7 +64,8 @@ class Cliente
                 'insert',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
             return ['status' => 'success', 'message' => 'Cliente cadastrado com sucesso!'];
@@ -150,7 +151,8 @@ class Cliente
                 'update',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
         return ['status' => 'success', 'message' => 'Cliente atualizado com sucesso!'];

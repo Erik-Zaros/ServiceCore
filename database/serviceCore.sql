@@ -79,7 +79,8 @@ CREATE TABLE tbl_log_auditor (
     antes JSONB,
     depois JSONB,
     usuario INT REFERENCES tbl_usuario(usuario),
-    data_log TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    data_log TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	posto INTEGER REFERENCES tbl_posto(posto)
 );
 
 CREATE TABLE tbl_estoque (

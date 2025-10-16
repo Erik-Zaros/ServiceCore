@@ -54,7 +54,8 @@ class Peca
                 'insert',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
             return ['status' => 'success', 'message' => 'Peça cadastrada com sucesso!'];
@@ -126,7 +127,8 @@ class Peca
                 'update',
                 $antes,
                 $depois,
-                $usuario
+				$usuario,
+				$posto
             );
 
         return ['status' => 'success', 'message' => 'Peça atualizado com sucesso!'];
