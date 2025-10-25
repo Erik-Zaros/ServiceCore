@@ -45,8 +45,8 @@ class Os
                     pg_query($con, "UPDATE tbl_cliente SET nome = '{$nome}' WHERE cliente = {$cliente_id}");
                 }
             } else {
-                $sqlInsertCliente = "INSERT INTO tbl_cliente (nome, cpf, posto) 
-                                     VALUES ('{$nome}', '{$cpf}', {$posto}) 
+                $sqlInsertCliente = "INSERT INTO tbl_cliente (nome, cpf, cep, endereco, bairro, numero, cidade, estado, posto)
+                                     VALUES ('{$nome}', '{$cpf}', '{$cep}', '{$endereco}', '{$bairro}', '{$numero}', '{$cidade}', '{$estado}', {$posto})
                                      RETURNING cliente";
                 $res_insert = pg_query($con, $sqlInsertCliente);
                 if (!$res_insert) throw new \Exception("Erro ao cadastrar cliente.");
