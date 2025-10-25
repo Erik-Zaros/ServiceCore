@@ -21,6 +21,7 @@ $(document).ready(function () {
                             <td><span class="badge ${
                                 item.status === 'ABERTO' ? 'bg-primary' :
                                 item.status === 'EM_ANDAMENTO' ? 'bg-warning text-dark' :
+                                item.status === 'EM ANDAMENTO' ? 'bg-warning text-dark' :
                                 item.status === 'FINALIZADO' ? 'bg-success' :
                                 'bg-danger'
                             }">${item.status}</span></td>
@@ -52,8 +53,8 @@ $(document).ready(function () {
             method: 'GET',
             dataType: 'json',
             success: function (data) {
-                $('#em_aberto').eq(0).text(data.ABERTO);
-                $('#em_andamento').eq(1).text(data.EM_ANDAMENTO);
+                $('#em_aberto').text(data.ABERTO);
+                $('#em_andamento').text(data.EM_ANDAMENTO);
                 $('#finalizado').text(data.FINALIZADO);
                 $('#cancelado').text(data.CANCELADO);
             }

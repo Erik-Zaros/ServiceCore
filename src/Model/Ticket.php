@@ -72,7 +72,9 @@ class Ticket
             SELECT
             	ticket.ticket,
                 os.os,
-                ticket.status,
+				CASE WHEN ticket.status = 'EM_ANDAMENTO' THEN 'EM ANDAMENTO'
+					ELSE ticket.status
+				END status,
                 os.nome_consumidor AS cliente,
                 os.cpf_consumidor AS cpf,
                 to_char(os.data_abertura, 'DD/MM/YYYY') AS data_abertura,
