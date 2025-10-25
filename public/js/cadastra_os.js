@@ -36,7 +36,7 @@ $(document).ready(function () {
         $("#estado_consumidor").val(data.estado_consumidor);
         $("#nota_fiscal").val(data.nota_fiscal);
 
-        if (data.nome_tecnico.length > 0) {
+        if (data.nome_tecnico != null) {
           $("#tecnico").val(data.nome_tecnico);
           $("#tecnico").prop('disabled', true);
           $('#campo_tecnico').show();
