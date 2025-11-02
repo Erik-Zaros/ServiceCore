@@ -12,14 +12,14 @@ class OsItem
         $os = intval($os);
 
         $sql = "
-            SELECT i.os_item, i.os, i.peca, i.quantidade, 
-                   p.codigo, p.descricao
+            SELECT i.os_item, i.os, i.peca, i.quantidade, i.servico_realizado,
+                   p.codigo, p.descricao, s.descricao as descricao_servico_realizado
             FROM tbl_os_item i
             INNER JOIN tbl_peca p ON i.peca = p.peca
+            LEFT JOIN tbl_servico_realizado s ON s.servico_realizado = i.servico_realizado
             WHERE i.os = {$os}
             ORDER BY p.descricao ASC
         ";
-
         $res = pg_query($con, $sql);
         $itens = [];
 

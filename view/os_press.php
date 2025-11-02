@@ -118,6 +118,7 @@ $pecas = $osInfo['pecas'] ?? [];
             <th style="width:20%">Código</th>
             <th>Descrição</th>
             <th style="width:10%">Quantidade</th>
+            <th style="width:20%">Serviço Realizado</th>
           </tr>
         </thead>
         <tbody>
@@ -126,6 +127,7 @@ $pecas = $osInfo['pecas'] ?? [];
               <td><?= htmlspecialchars($peca['codigo']) ?></td>
               <td><?= htmlspecialchars($peca['descricao']) ?></td>
               <td><?= htmlspecialchars($peca['quantidade']) ?></td>
+              <td><?= htmlspecialchars($peca['descricao_servico_realizado']) ?></td>
             </tr>
           <?php endforeach; ?>
         </tbody>

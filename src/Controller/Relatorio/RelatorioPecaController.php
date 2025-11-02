@@ -16,7 +16,7 @@ class RelatorioPecaController
 
         $dados = pg_fetch_assoc($resVerifica);
 
-        if ($dados['produto'] === 0) {
+        if ($dados['peca'] === 0) {
             header("Location: ../../view/peca.php?alerta=true");
         }
 

@@ -6,6 +6,7 @@ $(document).ready(function () {
       carregarDadosOS(osParam);
     } else {
       carregarProdutos();
+      carregarServicosRealizados();
     }
 
   function carregarDadosOS(os) {
@@ -42,6 +43,7 @@ $(document).ready(function () {
           $('#campo_tecnico').show();
         }
 
+        carregarServicosRealizados();
         carregarProdutos(data.produto);
         carregarPecas(os);
       }
@@ -88,6 +90,32 @@ $(document).ready(function () {
     });
   }
 
+  function carregarServicosRealizados() {
+    $.ajax({
+      url: "../public/servico_realizado/listar_ativos.php",
+      method: "GET",
+      dataType: "json",
+      success: function (servicos) {
+        $("#servico_realizado").empty();
+        $("#servico_realizado").append('<option value="">Selecione o Serviço Realizado</option>');
+        servicos.forEach(function (servico_realizado) {
+          if (servico_realizado.ativo === "t" || servico_realizado.ativo === true) {
+            $("#servico_realizado").append(
+              `<option value="${servico_realizado.servico_realizado}">${servico_realizado.descricao}</option>`
+            );
+          }
+        });
+      },
+      error: function () {
+        Swal.fire({
+          icon: "error",
+          title: "Erro",
+          text: "Erro ao carregar serviços realizados.",
+        });
+      },
+    });
+  }
+
   function carregarPecas(os) {
     $.ajax({
       url: "../public/os_item/listar.php",
@@ -100,10 +128,11 @@ $(document).ready(function () {
 
         pecas.forEach(item => {
           const novaLinha = `
-            <tr data-id="${item.peca}">
+            <tr data-id="${item.peca}" data-servico="${item.servico_realizado}">
               <td>${item.codigo}</td>
               <td>${item.descricao}</td>
               <td>${item.quantidade}</td>
+              <td>${item.descricao_servico_realizado}</td>
               <td>
                 <button type="button" class="btn btn-danger btn-sm removerPeca">
                   <i class="bi bi-trash" style="color: white;"></i>
@@ -123,6 +152,7 @@ $(document).ready(function () {
       pecas.push({
         peca: $(this).data("id"),
         quantidade: $(this).find("td:nth-child(3)").text(),
+        servico_realizado: $(this).data("servico")
       });
     });
 
@@ -131,9 +161,7 @@ $(document).ready(function () {
 
   function gravaEditaOs() {
     const isEdicao = !!$("#os").val();
-    const url = isEdicao
-      ? "../public/cadastra_os/editar.php"
-      : "../public/cadastra_os/cadastrar.php";
+    const url = isEdicao ? "../public/cadastra_os/editar.php" : "../public/cadastra_os/cadastrar.php";
 
     $.ajax({
       url: url,
@@ -239,9 +267,16 @@ $(document).ready(function () {
   $("#btnAdicionarPeca").on("click", function () {
     const qtd = parseInt($("#quantidade_peca").val(), 10);
     const nomePeca = $("#busca_peca").val();
+    const servicoSelecionado = $("#servico_realizado").val();
+    const servicoDescricao = $("#servico_realizado option:selected").text();
 
     if (!pecaSelecionada) {
       Swal.fire("Selecione uma peça válida!", "", "warning");
+      return;
+    }
+
+    if (!servicoSelecionado) {
+      Swal.fire("Selecione o serviço realizado!", "", "warning");
       return;
     }
 
@@ -257,10 +292,11 @@ $(document).ready(function () {
 
     const [codigo, descricao] = nomePeca.split(" - ");
     const novaLinha = `
-      <tr data-id="${pecaSelecionada}">
+      <tr data-id="${pecaSelecionada}" data-servico="${servicoSelecionado}">
         <td>${codigo}</td>
         <td>${descricao}</td>
         <td>${qtd}</td>
+        <td>${servicoDescricao}</td>
         <td>
           <button type="button" class="btn btn-danger btn-sm removerPeca">
             <i class="bi bi-trash" style="color: white;"></i>
@@ -270,7 +306,6 @@ $(document).ready(function () {
     `;
 
     $("#tabelaPecas tbody").append(novaLinha);
-
     $("#busca_peca").val("");
     $("#quantidade_peca").val(1);
     pecaSelecionada = null;

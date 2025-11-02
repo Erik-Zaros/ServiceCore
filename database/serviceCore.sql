@@ -146,5 +146,15 @@ CREATE TABLE tbl_os_item (
     peca INTEGER NOT NULL REFERENCES tbl_peca(peca),
     quantidade INTEGER NOT NULL,
     posto INTEGER REFERENCES tbl_posto(posto),
-    data_input TIMESTAMP DEFAULT NOW()
+    data_input TIMESTAMP DEFAULT NOW(),
+    servico_realizado INTEGER REFERENCES tbl_servico_realizado(servico_realizado)
+);
+
+CREATE TABLE tbl_servico_realizado (
+    servico_realizado SERIAL PRIMARY KEY,
+    descricao VARCHAR(50) NOT NULL,
+    ativo BOOLEAN DEFAULT FALSE,
+    usa_estoque BOOLEAN DEFAULT FALSE,
+    data_input TIMESTAMP DEFAULT NOW(),
+    posto INTEGER REFERENCES tbl_posto(posto)
 );

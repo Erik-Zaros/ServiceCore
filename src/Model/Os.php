@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Core\Db;
+use App\Auth\Autenticador;
 
 class Os
 {
@@ -18,6 +19,7 @@ class Os
     public function salvar()
     {
         $con = Db::getConnection();
+        $usuario = Autenticador::getUsuario();
         pg_query($con, 'BEGIN');
 
         try {
@@ -81,6 +83,7 @@ class Os
                     foreach ($pecas as $item) {
                         $peca = intval($item['peca']);
                         $quantidade = intval($item['quantidade']);
+                        $servico_realizado = intval($item['servico_realizado']);
 
                         $sqlCheckPeca = "SELECT 1
                                          FROM tbl_lista_basica
@@ -101,9 +104,28 @@ class Os
                             }
                         }
 
+                        $usa_estoque = $this->validaServicoRealizadoUsaEstoque($servico_realizado);
+
+                        if ($usa_estoque == true) {
+                            $descricao_mov = pg_escape_string($con, "Peça lançada na OS {$os_id}");
+                            $sql_estoque = "
+                                SELECT fn_lanca_movimentacao_estoque(
+                                    {$posto},
+                                    NULL,
+                                    {$peca},
+                                    'S',
+                                    {$quantidade},
+                                    {$os_id},
+                                    '{$descricao_mov}',
+                                    {$usuario}
+                                )
+                            ";
+                            $res_estoque = pg_query($con, $sql_estoque);
+                        }
+
                         $sqlItem = "
-                            INSERT INTO tbl_os_item (os, peca, quantidade, posto)
-                            VALUES ({$os_id}, {$peca}, {$quantidade}, {$posto})
+                            INSERT INTO tbl_os_item (os, peca, quantidade, servico_realizado, posto)
+                            VALUES ({$os_id}, {$peca}, {$quantidade}, {$servico_realizado}, {$posto})
                         ";
                         pg_query($con, $sqlItem);
                     }
@@ -121,6 +143,7 @@ class Os
     public function editar()
     {
         $con = Db::getConnection();
+        $usuario = Autenticador::getUsuario();
         pg_query($con, 'BEGIN');
 
         try {
@@ -192,6 +215,7 @@ class Os
                     foreach ($pecas as $item) {
                         $peca = intval($item['peca']);
                         $quantidade = intval($item['quantidade']);
+                        $servico_realizado = intval($item['servico_realizado']);
 
                         $sqlCheckPeca = "SELECT 1
                                          FROM tbl_lista_basica
@@ -212,22 +236,46 @@ class Os
                             }
                         }
 
+                        $usa_estoque = $this->validaServicoRealizadoUsaEstoque($servico_realizado);
+
                         $sqlCheck = "SELECT os_item FROM tbl_os_item WHERE os = {$os} AND peca = {$peca}";
                         $resCheck = pg_query($con, $sqlCheck);
 
                         if (pg_num_rows($resCheck) > 0) {
                             $sqlUpdateItem = "
                                 UPDATE tbl_os_item
-                                SET quantidade = {$quantidade}
+                                SET quantidade = {$quantidade}, servico_realizado = {$servico_realizado}
                                 WHERE os = {$os} AND peca = {$peca}
                             ";
                             $resUpdateItem = pg_query($con, $sqlUpdateItem);
                         } else {
                             $sqlInsertItem = "
-                                INSERT INTO tbl_os_item (os, peca, quantidade, posto)
-                                VALUES ({$os}, {$peca}, {$quantidade}, {$posto})
+                                INSERT INTO tbl_os_item (os, peca, quantidade, servico_realizado, posto)
+                                VALUES ({$os}, {$peca}, {$quantidade}, {$servico_realizado}, {$posto})
                             ";
                             $resInsertIntem = pg_query($con, $sqlInsertItem);
+                        }
+
+                        if ($usa_estoque == true) {
+
+                            $peca_lancada_anteriormente = $this->validaPecaLancadaEstoqueMovimento($peca, $os);
+
+                            if ($peca_lancada_anteriormente == false) {
+                                $descricao_mov = pg_escape_string($con, "Peça lançada/atualizada na OS {$os}");
+                                $sql_estoque = "
+                                    SELECT fn_lanca_movimentacao_estoque(
+                                        {$posto},
+                                        NULL,
+                                        {$peca},
+                                        'S',
+                                        {$quantidade},
+                                        {$os},
+                                        '{$descricao_mov}',
+                                        '{$usuario}'
+                                    )
+                                ";
+                                $res_estoque = pg_query($con, $sql_estoque);
+                            }
                         }
                     }
                 }
@@ -239,6 +287,49 @@ class Os
             pg_query($con, 'ROLLBACK');
             return ['status' => 'error', 'message' => $e->getMessage()];
         }
+    }
+
+    private function validaServicoRealizadoUsaEstoque($servico_realizado)
+    {
+        $con = Db::getConnection();
+        $posto = intval($this->posto);
+
+        $sql = "SELECT usa_estoque
+                FROM tbl_servico_realizado
+                WHERE posto = $posto
+                AND servico_realizado = $servico_realizado
+            ";
+        $res = pg_query($con, $sql);
+
+        if (pg_num_rows($res) > 0) {
+            $usa_estoque = pg_fetch_result($res, 0, 'usa_estoque');
+
+            if ($usa_estoque == 't') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function validaPecaLancadaEstoqueMovimento($peca, $os)
+    {
+        $con = Db::getConnection();
+        $posto = intval($this->posto);
+
+        $sql = "SELECT estoque_movimento
+                FROM tbl_estoque_movimento
+                WHERE posto = $posto
+                AND peca = $peca
+                AND os = $os
+            ";
+        $res = pg_query($con, $sql);
+
+        if (pg_num_rows($res) > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function filtrarOrdens(array $filtros, $posto)
@@ -403,9 +494,10 @@ class Os
         $dados = pg_fetch_assoc($res);
 
         $sqlItens = "
-            SELECT i.os_item, i.peca, i.quantidade, p.codigo, p.descricao
+            SELECT i.os_item, i.peca, i.quantidade, p.codigo, p.descricao, s.descricao AS descricao_servico_realizado
             FROM tbl_os_item i
             INNER JOIN tbl_peca p ON p.peca = i.peca
+            LEFT JOIN tbl_servico_realizado s ON s.servico_realizado = i.servico_realizado
             WHERE i.os = {$os}
             ORDER BY p.descricao
         ";

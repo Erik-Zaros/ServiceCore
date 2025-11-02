@@ -44,6 +44,10 @@ $imports = [
         "css" => ["../public/css/peca.css"],
         "js" => ["../public/js/peca.js"]
     ],
+    "servico_realizado" => [
+        "css" => ["../public/css/servico_realizado.css"],
+        "js" => ["../public/js/servico_realizado.js"]
+    ],
     "lista_basica" => [
         "css" => ["../public/css/lista_basica.css"],
         "js" => ["../public/js/lista_basica.js"]

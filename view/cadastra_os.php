@@ -100,7 +100,7 @@ ob_start();
   </div>
   <div class="card-body">
     <div class="row mb-3 align-items-end">
-      <div class="col-md-6">
+      <div class="col-md-4">
         <label for="busca_peca" class="form-label">Buscar Peça (Código ou Descrição)</label>
         <input type="text" id="busca_peca" class="form-control" placeholder="Digite para buscar..." autocomplete="off">
       </div>
@@ -108,6 +108,12 @@ ob_start();
       <div class="col-md-2">
         <label for="quantidade_peca" class="form-label">Quantidade</label>
         <input type="number" id="quantidade_peca" class="form-control" value="1" min="1">
+      </div>
+
+      <div class="col-md-2">
+        <label for="servico_realizado" class="form-label">Serviço Realizado</label>
+        <select class="form-select" id="servico_realizado">
+        </select>
       </div>
 
       <div class="col-md-2">
@@ -122,6 +128,7 @@ ob_start();
           <th>Código</th>
           <th>Descrição</th>
           <th>Quantidade</th>
+          <th>Serviço Realizado</th>
           <th>Ação</th>
         </tr>
       </thead>

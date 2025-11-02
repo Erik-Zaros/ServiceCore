@@ -23,17 +23,10 @@
     padding: 5px 10px;
 }
 
-#movTable tr.stripe1 td, #movTable tr.stripe1 th {
+#servicoRealizadoTable tr.stripe1 td, #servicoRealizadoTable tr.stripe1 th {
     background-color: #f2f2f2;
 }
-#movTable tr.stripe2 td, #movTable tr.stripe2 th {
-    background-color: #fff;
-}
-
-#estoqueTable tr.stripe1 td, #estoqueTable tr.stripe1 th {
-    background-color: #f2f2f2;
-}
-#estoqueTable tr.stripe2 td, #estoqueTable tr.stripe2 th {
+#servicoRealizadoTable tr.stripe2 td, #servicoRealizadoTable tr.stripe2 th {
     background-color: #fff;
 }
 

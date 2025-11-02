@@ -40,7 +40,7 @@ class ListaBasica
         $pecaId = intval($pecaId);
         $posto = intval($posto);
 
-        $sql_valida = "SELECT peca FROM tbl_lista_basica WHERE posto = $posto AND produto = $produtoId";
+        $sql_valida = "SELECT peca FROM tbl_lista_basica WHERE posto = $posto AND produto = $produtoId AND peca = $pecaId";
         $res_valida = pg_query($con, $sql_valida);
 
         if (pg_num_rows($res_valida) > 0) {
