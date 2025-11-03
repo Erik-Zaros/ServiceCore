@@ -89,7 +89,7 @@ $(document).ready(function () {
     const id   = $(this).data('id');
     const desc = $(this).data('descricao');
 
-    $('#movModalLabel').text(`Movimentações do ${kind.toUpperCase()}: ${desc}`);
+    $('#movModalLabel').text(`Movimentações da ${kind.toUpperCase()}: ${desc}`);
     const params = (kind === 'produto') ? { produto: id } : { peca: id };
 
     $.ajax({

@@ -23,6 +23,11 @@
     padding: 5px 10px;
 }
 
+.modal-header {
+    background-color: #022847;
+    color: #ffffff;
+}
+
 #movTable tr.stripe1 td, #movTable tr.stripe1 th {
     background-color: #f2f2f2;
 }
