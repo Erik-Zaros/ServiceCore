@@ -182,67 +182,130 @@ class Ticket
 	    return ['status' => 'error', 'message' => 'Erro ao excluir agendamento.'];
 	}
 
-	public static function exportar($os, $agendamento, $posto)
-	{
-	    $con = Db::getConnection();
-	    $os = intval($os);
-	    $agendamento = intval($agendamento);
-	    $posto = intval($posto);
+    public static function exportar($os, $agendamento, $posto)
+    {
+        $con = Db::getConnection();
+        $os = intval($os);
+        $agendamento = intval($agendamento);
+        $posto = intval($posto);
 
-	    $sql = "
-	        SELECT
-	            os.os,
-	            os.data_abertura,
-	            os.nome_consumidor,
-	            os.cpf_consumidor,
-	            c.cep,
-	            c.endereco,
-	            c.bairro,
-	            c.numero,
-	            c.cidade,
-	            c.estado,
-	            p.codigo AS produto_codigo,
-	            p.descricao AS produto_descricao,
-	            ag.agendamento,
-	            ag.data_agendamento,
-	            ag.hora_inicio,
-	            ag.hora_fim,
-	            u.nome AS tecnico
-	        FROM tbl_os os
-	        INNER JOIN tbl_produto p ON os.produto = p.produto
-	        LEFT JOIN tbl_cliente c ON os.cliente = c.cliente
-	        INNER JOIN tbl_agendamento ag ON ag.os = os.os
-	        LEFT JOIN tbl_usuario u ON ag.tecnico = u.usuario
-	        WHERE os.os = {$os}
-	          AND ag.agendamento = {$agendamento}
-	          AND os.posto = {$posto}
-	    ";
+        $sql = "
+            SELECT
+                os.os,
+                os.data_abertura,
+                os.nome_consumidor,
+                os.cpf_consumidor,
+                os.cep_consumidor,
+                os.endereco_consumidor,
+                os.bairro_consumidor,
+                os.numero_consumidor,
+                os.cidade_consumidor,
+                os.estado_consumidor,
+                os.nota_fiscal,
+                os.finalizada,
+                os.cancelada,
+                p.codigo AS produto_codigo,
+                p.descricao AS produto_descricao,
+                ag.data_agendamento,
+                ag.hora_inicio,
+                ag.hora_fim,
+                ag.status AS status_agendamento,
+                u.nome AS tecnico
+            FROM tbl_os os
+            INNER JOIN tbl_produto p ON os.produto = p.produto
+            INNER JOIN tbl_agendamento ag ON ag.os = os.os
+            LEFT JOIN tbl_usuario u ON ag.tecnico = u.usuario
+            WHERE os.os = {$os}
+              AND ag.agendamento = {$agendamento}
+              AND os.posto = {$posto}
+            LIMIT 1
+        ";
 
-	    $res = pg_query($con, $sql);
-	    if (pg_num_rows($res) === 0) {
-	        return ['status' => 'error', 'message' => 'OS ou agendamento não encontrados.'];
-	    }
+        $res = pg_query($con, $sql);
+        if (pg_num_rows($res) === 0) {
+            return ['status' => 'error', 'message' => 'OS ou agendamento não encontrados.'];
+        }
 
-	    $dados = pg_fetch_assoc($res);
-	    $json = json_encode($dados);
+        $dados = pg_fetch_assoc($res);
 
-	    $sqlInsert = "
-	        INSERT INTO tbl_ticket (os, agendamento, posto, status, request)
-	        VALUES ({$os}, {$agendamento}, {$posto}, 'ABERTO', '{$json}'::jsonb)
-	    ";
+        if ($dados['finalizada'] === 't') {
+            $status_os = 'Finalizada';
+        } elseif ($dados['cancelada'] === 't') {
+            $status_os = 'Cancelada';
+        } else {
+            $status_os = 'Aberta';
+        }
 
-	    $resInsert = pg_query($con, $sqlInsert);
+        $sqlPecas = "SELECT pec.codigo AS peca_codigo,
+                            pec.descricao AS peca_descricao,
+                            oi.quantidade,
+                            sr.descricao AS servico_realizado
+            FROM tbl_os_item oi
+            INNER JOIN tbl_peca pec ON pec.peca = oi.peca
+            LEFT JOIN tbl_servico_realizado sr ON sr.servico_realizado = oi.servico_realizado
+            WHERE oi.os = {$os}
+        ";
+        $resPecas = pg_query($con, $sqlPecas);
+        $pecas = [];
 
-		if($resInsert) {
-			$sqlUpdateAgendamento = "UPDATE tbl_agendamento SET status = 'CONFIRMADO'
-									 WHERE agendamento = $agendamento AND posto = $posto";
-			$resUpdateAgendamento = pg_query($con, $sqlUpdateAgendamento);
+        if (pg_num_rows($resPecas) > 0) {
+            while ($linha = pg_fetch_assoc($resPecas)) {
+                $pecas[] = [
+                    'peca_codigo' => $linha['peca_codigo'],
+                    'peca_descricao' => $linha['peca_descricao'],
+                    'quantidade' => intval($linha['quantidade']),
+                    'servico_realizado' => $linha['servico_realizado']
+                ];
+            }
+        }
 
-			if ($resUpdateAgendamento) {
-				return ['status' => 'success', 'message' => 'Ticket exportado com sucesso!'];
-			}
-		}
+        $request = [
+            'os' => intval($dados['os']),
+            'informacoes_os' => [
+                'status_os' => $status_os,
+                'data_abertura' => $dados['data_abertura'],
+                'nota_fiscal' => $dados['nota_fiscal'],
+                'tecnico' => $dados['tecnico']
+            ],
+            'informacoes_consumidor' => [
+                'nome_consumidor' => $dados['nome_consumidor'],
+                'cpf_consumidor' => $dados['cpf_consumidor'],
+                'cep_consumidor' => $dados['cep_consumidor'],
+                'endereco_consumidor' => $dados['endereco_consumidor'],
+                'bairro_consumidor' => $dados['bairro_consumidor'],
+                'numero_consumidor' => $dados['numero_consumidor'],
+                'cidade_consumidor' => $dados['cidade_consumidor'],
+                'estado_consumidor' => $dados['estado_consumidor']
+            ],
+            'informacoes_agendamento' => [
+                'data_agendamento' => $dados['data_agendamento'],
+                'hora_inicio' => $dados['hora_inicio'],
+                'hora_fim' => $dados['hora_fim']
+            ],
+            'informacoes_produto' => [
+                'produto_codigo' => $dados['produto_codigo'],
+                'produto_descricao' => $dados['produto_descricao']
+            ],
+            'informacoes_peca' => $pecas
+        ];
 
-	    return ['status' => 'error', 'message' => 'Erro ao exportar ticket.'];
-	}
+        $request = json_encode($request);
+
+        $sqlInsert = "
+            INSERT INTO tbl_ticket (os, agendamento, posto, status, request)
+            VALUES ({$os}, {$agendamento}, {$posto}, 'ABERTO', '{$request}')
+        ";
+        $resInsert = pg_query($con, $sqlInsert);
+
+        if ($resInsert) {
+            $sqlUpdateAgendamento = "UPDATE tbl_agendamento SET status = 'CONFIRMADO' WHERE agendamento = {$agendamento} AND posto = {$posto}";
+            $resUpdateAgendamento = pg_query($con, $sqlUpdateAgendamento);
+
+            if ($resUpdateAgendamento) {
+                return ['status' => 'success', 'message' => 'Ticket exportado com sucesso!'];
+            }
+        }
+
+        return ['status' => 'error', 'message' => 'Erro ao exportar ticket.'];
+    }
 }
