@@ -9,5 +9,5 @@ Autenticador::iniciar();
 $posto = Autenticador::getPosto();
 $produto = $_POST['produto'] ?? 0;
 
-$result = json_encode(ProdutoController::apagar($produto, $posto));
+$result = ProdutoController::apagar($produto, $posto);
 echo json_encode($result);

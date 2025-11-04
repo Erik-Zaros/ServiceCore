@@ -9,5 +9,5 @@ Autenticador::iniciar();
 $posto = Autenticador::getPosto();
 $peca = $_POST['peca'] ?? 0;
 
-$result = json_encode(PecaController::apagar($peca, $posto));
+$result = PecaController::apagar($peca, $posto);
 echo json_encode($result);

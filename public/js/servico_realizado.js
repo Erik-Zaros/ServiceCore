@@ -106,6 +106,7 @@ $(document).ready(function () {
             data: { descricao: descricao },
             dataType: 'json',
             success: function (servico_realizado) {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
                 $('#descricao').val(servico_realizado.descricao);
                 $('#ativo').prop('checked', servico_realizado.ativo == 't');
                 $('#usa_estoque').prop('checked', servico_realizado.usa_estoque == 't');
@@ -172,21 +173,23 @@ $(document).ready(function () {
                     url: '../public/servico_realizado/excluir.php',
                     method: 'POST',
                     data: { servico_realizado: servico_realizado },
+                    dataType: 'json',
                     success: function (response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Excluído!',
-                            text: response.message,
-                        }).then(() => {
-                            carregarServicoRealizado();
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro',
-                            text: response.message,
-                        });
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: response.message,
+                            }).then(() => {
+                                carregarServicoRealizado();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Atenção!',
+                                text: response.message,
+                            });
+                        }
                     }
                 });
             }

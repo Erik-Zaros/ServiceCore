@@ -137,6 +137,7 @@ $(document).ready(function () {
             method: 'GET',
             data: { cpf: cpf },
             success: function (data) {
+				$("html, body").animate({ scrollTop: 0 }, "slow");
                 var cliente = JSON.parse(data);
 
                 $('#cpf').val(cliente.cpf).prop('disabled', true);

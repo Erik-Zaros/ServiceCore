@@ -105,6 +105,7 @@ $(document).ready(function () {
             data: { codigo: codigo },
             dataType: 'json',
             success: function (peca) {
+                $("html, body").animate({ scrollTop: 0 }, "slow");
                 $('#codigo').val(peca.codigo);
                 $('#descricao').val(peca.descricao);
                 $('#ativo').prop('checked', peca.ativo == 't');
@@ -171,21 +172,23 @@ $(document).ready(function () {
                     url: '../public/peca/excluir.php',
                     method: 'POST',
                     data: { peca: peca },
+                    dataType: 'json',
                     success: function (response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Excluído!',
-                            text: response.message,
-                        }).then(() => {
-                            carregarPecas();
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro',
-                            text: response.message,
-                        });
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso!',
+                                text: response.message,
+                            }).then(() => {
+                                carregarPecas();
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Atenção!',
+                                text: response.message,
+                            });
+                        }
                     }
                 });
             }

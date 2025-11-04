@@ -64,13 +64,12 @@ class Produto
         return ['status' => 'error', 'message' => 'Erro ao cadastrar produto!'];
     }
 
-    public static function buscarPorCodigo($codigo, $posto)
+    public static function buscarPorProduto($produto, $posto)
     {
         $con = Db::getConnection();
-        $codigo = pg_escape_string($codigo);
         $posto = intval($posto);
 
-        $sql = "SELECT produto, codigo, descricao, ativo FROM tbl_produto WHERE codigo = '{$codigo}' AND posto = {$posto}";
+        $sql = "SELECT produto, codigo, descricao, ativo FROM tbl_produto WHERE produto = {$produto} AND posto = {$posto}";
         $res = pg_query($con, $sql);
 
         return pg_num_rows($res) > 0
@@ -159,12 +158,16 @@ class Produto
         $con = Db::getConnection();
         $posto = intval($posto);
 
+        $produto_tem_estoque = self::produtoTemEstoque($produto, $posto);
+
+        if ($produto_tem_estoque == false) {
         $sql = "DELETE FROM tbl_produto WHERE produto = $produto AND posto = $posto";
         $res = pg_query($con, $sql);
 
-        return $res
-            ? ['status' => 'success', 'message' => 'Produto excluido com sucesso']
-            : ['status' => 'error', 'message' => 'Erro ao exlcuir produto.'];
+        return $res ? ['status' => 'success', 'message' => 'Produto excluído com sucesso.'] : ['status' => 'error', 'message' => 'Erro ao excluir produto.'];
+        } else {
+            return ['status' => 'error', 'message' => 'Não é possível excluir. O produto ainda está vinculada ao estoque.'];
+        }
     }
 
     public static function autocompleteProdutos($termo, $posto)
@@ -195,5 +198,26 @@ class Produto
             ];
         }
         return $sugestoes;
+    }
+
+    private static function produtoTemEstoque($produto, $posto)
+    {
+        $con = Db::getConnection();
+        $produto = intval($produto);
+        $posto = intval($posto);
+
+        $sql = "SELECT qtde
+                FROM tbl_estoque
+                WHERE produto = $produto
+                AND posto = $posto
+            ";
+        $res = pg_query($con, $sql);
+
+        if (pg_num_rows($res) > 0) {
+            $row = pg_fetch_assoc($res);
+            return $row['qtde'] > 0;
+        }
+
+        return false;
     }
 }

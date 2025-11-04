@@ -9,5 +9,5 @@ Autenticador::iniciar();
 $posto = Autenticador::getPosto();
 $servico_realizado = $_POST['servico_realizado'] ?? 0;
 
-$result = json_encode(ServicoRealizadoController::apagar($servico_realizado, $posto));
+$result = ServicoRealizadoController::apagar($servico_realizado, $posto);
 echo json_encode($result);

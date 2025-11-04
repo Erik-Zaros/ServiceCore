@@ -156,9 +156,34 @@ class ServicoRealizado
         $con = Db::getConnection();
         $posto = intval($posto);
 
-        $sql = "DELETE FROM tbl_servico_realizado WHERE servico_realizado = $servico_realizado AND posto = $posto";
+        $valida_servico_realizado = self::validaServicoRealizado($servico_realizado, $posto);
+
+        if ($valida_servico_realizado == false) {
+            $sql = "DELETE FROM tbl_servico_realizado WHERE servico_realizado = $servico_realizado AND posto = $posto";
+            $res = pg_query($con, $sql);
+
+        return $res ? ['status' => 'success', 'message' => 'Serviço Realizado excluído com sucesso.'] : ['status' => 'error', 'message' => 'Erro ao excluir serviço Realizado.'];
+        } else {
+            return ['status' => 'error', 'message' => 'Não é possível excluir. O Serviço Realizado já tem vinculo com ordens de serviço.'];
+        }
+    }
+
+    private static function validaServicoRealizado($servico_realizado, $posto)
+    {
+        $con = Db::getConnection();
+        $posto = intval($posto);
+
+        $sql = "SELECT os
+                FROM tbl_os_item
+                WHERE servico_realizado = $servico_realizado
+                AND posto = $posto
+            ";
         $res = pg_query($con, $sql);
 
-        return $res ? ['status' => 'success', 'message' => 'Serviço Realizado excluido com sucesso'] : ['status' => 'error', 'message' => 'Erro ao exlcuir Serviço Realizado.'];
+        if (pg_num_rows($res) > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
