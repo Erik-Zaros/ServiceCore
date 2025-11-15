@@ -8,5 +8,4 @@ use App\Auth\Autenticador;
 Autenticador::iniciar();
 $posto = Autenticador::getPosto();
 
-header('Content-Type: application/json');
 echo json_encode(UsuarioController::editar($_POST, $posto));

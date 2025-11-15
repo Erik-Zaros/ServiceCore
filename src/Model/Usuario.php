@@ -59,7 +59,8 @@ class Usuario
                 'insert',
                 $antes,
                 $depois,
-                $usuario
+                $usuario,
+                $posto
             );
 
             return ['status' => 'success', 'message' => 'Usuário cadastrado com sucesso!'];
@@ -99,7 +100,7 @@ class Usuario
         return pg_fetch_assoc($res) ?: null;
     }
 
-    public function editar()
+    public function atualizar()
     {
         $con = Db::getConnection();
         $usuario = Autenticador::getUsuario();
@@ -164,7 +165,8 @@ class Usuario
                 'update',
                 $antes,
                 $depois,
-                $usuario
+                $usuario,
+                $posto
             );
 
         return ['status' => 'success', 'message' => 'Usuário atualizado com sucesso!'];
