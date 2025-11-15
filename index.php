@@ -40,7 +40,7 @@
         <div class="col-lg-6">
           <h1 class="display-5 fw-bold text-white mb-3">Gestão de OS para <span class="grad-text">Postos Autorizados</span></h1>
           <p class="lead text-light opacity-90">
-            Centralize ordens de serviço, clientes, produtos e relatórios em um único lugar. 
+            Centralize ordens de serviço, clientes, produtos e relatórios em um único lugar.
             Simples, rápido e feito para o seu dia a dia.
           </p>
           <div class="d-flex flex-wrap gap-2 mt-3">
