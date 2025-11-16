@@ -97,6 +97,7 @@ class OsItem
             INNER JOIN tbl_peca p ON lb.peca = p.peca
             WHERE lb.produto = {$produto}
             AND (p.codigo ILIKE '%{$termo}%' OR p.descricao ILIKE '%{$termo}%')
+			AND p.ativo IS TRUE
             ORDER BY p.descricao ASC
             LIMIT 20
         ";
