@@ -3,12 +3,12 @@ $(document).ready(function () {
   $("#data").val(params.get("data"));
   $("#dataLabel").val(params.get("data"));
 
-  $.getJSON("/ServiceCore/public/agendamento/buscarTecnico.php", function (tecnicos) {
+  $.getJSON("/public/agendamento/buscarTecnico.php", function (tecnicos) {
     $("#tecnico").append('<option value="">Selecione...</option>');
     tecnicos.forEach(t => $("#tecnico").append(`<option value="${t.usuario}">${t.nome}</option>`));
   });
 
-  $.getJSON("/ServiceCore/public/agendamento/buscarOs.php", function (osList) {
+  $.getJSON("/public/agendamento/buscarOs.php", function (osList) {
     $("#os").append('<option value="">Selecione...</option>');
     osList.forEach(o => $("#os").append(`<option value="${o.os}">OS ${o.os} - ${o.nome_consumidor}</option>`));
   });
@@ -21,7 +21,7 @@ $(document).ready(function () {
       return;
     }
 
-    $.post("/ServiceCore/public/agendamento/agendamentos_salvar.php", $(this).serialize(), function (resp) {
+    $.post("/public/agendamento/agendamentos_salvar.php", $(this).serialize(), function (resp) {
       if (resp.success) {
         parent.refreshCalendar();
         parent.Shadowbox.close();

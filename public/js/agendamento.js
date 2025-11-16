@@ -18,7 +18,7 @@ $(document).ready(function () {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
 
-    events: '/ServiceCore/public/agendamento/agendamentos_listar.php',
+    events: '/public/agendamento/agendamentos_listar.php',
 
     select: function (info) {
       const pad = n => String(n).padStart(2, '0');
@@ -28,7 +28,7 @@ $(document).ready(function () {
 
       Shadowbox.open({
         player: 'iframe',
-        content: `/ServiceCore/view/modalAgendamento.php?data=${data}`,
+        content: `/view/modalAgendamento.php?data=${data}`,
         title: 'Novo Agendamento',
         width: 700,
         height: 400
