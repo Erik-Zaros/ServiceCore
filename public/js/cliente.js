@@ -206,4 +206,17 @@ $(document).ready(function () {
             }
         });
     });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const alerta = urlParams.get('alerta');
+
+    if (alerta === 'true') {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Atenção',
+            text: 'Nenhum cliente cadastrado!',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#007bff'
+        });
+    }
 });
