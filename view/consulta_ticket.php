@@ -56,8 +56,8 @@ ob_start();
         <h3 id="em_aberto">—</h3>
         <p>Tickets Abertos</p>
       </div>
-      <div class="icon"><i class="bi bi-folder2-open"></i></div>
-      <span class="small-box-footer">Filtrar por abertos <i class="bi bi-arrow-right"></i></span>
+      <div class="icon"><i class="bi bi-folder2-open icone"></i></div>
+      <span class="small-box-footer">Filtrar por abertos <i class="bi bi-arrow-right icone"></i></span>
     </div>
   </div>
 
@@ -67,8 +67,8 @@ ob_start();
         <h3 id="em_andamento">—</h3>
         <p>Tickets em Andamento</p>
       </div>
-      <div class="icon"><i class="bi bi-hourglass-split"></i></div>
-      <span class="small-box-footer">Filtrar por andamento <i class="bi bi-arrow-right"></i></span>
+      <div class="icon"><i class="bi bi-hourglass-split icone"></i></div>
+      <span class="small-box-footer">Filtrar por andamento <i class="bi bi-arrow-right icone"></i></span>
     </div>
   </div>
 
@@ -78,8 +78,8 @@ ob_start();
         <h3 id="finalizado">—</h3>
         <p>Tickets Finalizados</p>
       </div>
-      <div class="icon"><i class="bi bi-check-circle-fill"></i></div>
-      <span class="small-box-footer">Filtrar por finalizados <i class="bi bi-arrow-right"></i></span>
+      <div class="icon"><i class="bi bi-check-circle-fill icone"></i></div>
+      <span class="small-box-footer">Filtrar por finalizados <i class="bi bi-arrow-right icone"></i></span>
     </div>
   </div>
 
@@ -89,8 +89,8 @@ ob_start();
         <h3 id="cancelado">—</h3>
         <p>Tickets Cancelados</p>
       </div>
-      <div class="icon"><i class="bi bi-x-octagon-fill"></i></div>
-      <span class="small-box-footer">Filtrar por cancelados <i class="bi bi-arrow-right"></i></span>
+      <div class="icon"><i class="bi bi-x-octagon-fill icone"></i></div>
+      <span class="small-box-footer">Filtrar por cancelados <i class="bi bi-arrow-right icone"></i></span>
     </div>
   </div>
 </div>

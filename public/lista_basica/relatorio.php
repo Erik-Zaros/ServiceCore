@@ -14,4 +14,4 @@ if (!$produtoId) {
     exit;
 }
 
-RelatorioListaBasicaController::gerarXLS($produtoId, $posto);
+RelatorioListaBasicaController::gerarCSV($produtoId, $posto);

@@ -37,3 +37,7 @@ i {
 .card-status {
     cursor: pointer;
 }
+
+.icone {
+	color: white !important;
+}

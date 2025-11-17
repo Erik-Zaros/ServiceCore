@@ -216,7 +216,7 @@
           <p class="text-body-secondary mb-0">Entre em contato e te ajudamos a configurar seu posto autorizado.</p>
         </div>
         <div class="col-lg-4 text-lg-end">
-          <a href="mailto:suporte@servicecore.com.br" class="btn btn-dark"><i class="bi bi-envelope me-1"></i>suporte@servicecore.com.br</a>
+          <a href="mailto:erikzaros942@gmail.com" class="btn btn-dark"><i class="bi bi-envelope me-1"></i>erikzaros942@gmail.com</a>
         </div>
       </div>
     </div>

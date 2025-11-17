@@ -6,7 +6,7 @@ use App\Core\Db;
 
 class RelatorioTicketController
 {
-    public static function gerarXLS($posto)
+    public static function gerarCSV($posto)
     {
         $con = Db::getConnection();
         $posto = intval($posto);
@@ -37,38 +37,20 @@ class RelatorioTicketController
             ";
         $res = pg_query($con, $sql);
 
-        header("Content-Type: application/vnd.ms-excel; charset=utf-8");
-        header("Content-Disposition: attachment; filename=Relatorio_Ticket.xls");
-        header("Cache-Control: max-age=0");
+        header('Content-Type: text/csv; charset=UTF-8');
+        header('Content-Disposition: attachment; filename=relatorio_peca.csv');
 
-        echo "<table border='1'>";
-        echo "<tr bgcolor='#2e2e48' style='color: #ffffff; font-weight: bold;'>
-                <th>Ticket</th>
-                <th>OS</th>
-                <th>Status</th>
-                <th>Nome Consumidor</th>
-                <th>CPF Consumidor</th>
-                <th>Produto</th>
-                <th>Tecnico</th>
-                <th>Data Agendamento</th>
-                <th>Data Exportação</th>
-              </tr>";
+        $output = fopen('php://output', 'w');
+	
+		$cabecalho = ['Ticket', 'OS', 'Status', 'Nome Consumidor', 'CPF Consumidor', 'Produto', 'Técnico', 'Data Agendamento', 'Data Exportação'];
+        fputcsv($output, $cabecalho, ';');
 
         while ($row = pg_fetch_assoc($res)) {
-            echo "<tr>";
-            echo "<td>{$row['ticket']}</td>";
-            echo "<td>{$row['os']}</td>";
-            echo "<td>{$row['status']}</td>";
-            echo "<td>{$row['nome_consumidor']}</td>";
-            echo "<td>{$row['cpf_consumidor']}</td>";
-            echo "<td>{$row['produto']}</td>";
-            echo "<td>{$row['tecnico']}</td>";
-            echo "<td>{$row['data_agendamento']}</td>";
-            echo "<td>{$row['data_exportacao']}</td>";
-            echo "</tr>";
+
+            fputcsv($output, [$row['ticket'], $row['os'], $row['status'], $row['nome_consumidor'], $row['cpf_consumidor'], $row['produto'], $row['tecnico'], $row['data_agendamento'], $row['data_exportacao']], ';');
         }
 
-        echo "</table>";
+        fclose($output);
         exit;
     }
 }

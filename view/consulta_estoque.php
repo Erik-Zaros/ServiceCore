@@ -18,7 +18,7 @@ ob_start();
         <h3 id="kpiTotal">—</h3>
         <p>Total de Itens</p>
       </div>
-      <div class="icon"><i class="bi bi-box-seam"></i></div>
+      <div class="icon"><i class="bi bi-box-seam icone"></i></div>
       <span class="small-box-footer">&nbsp;</span>
     </div>
   </div>
@@ -28,7 +28,7 @@ ob_start();
         <h3 id="kpiComSaldo">—</h3>
         <p>Com Saldo</p>
       </div>
-      <div class="icon"><i class="bi bi-graph-up"></i></div>
+      <div class="icon"><i class="bi bi-graph-up icone"></i></div>
       <span class="small-box-footer">&nbsp;</span>
     </div>
   </div>
@@ -38,7 +38,7 @@ ob_start();
         <h3 id="kpiZerados">—</h3>
         <p>Zerados</p>
       </div>
-      <div class="icon"><i class="bi bi-slash-circle"></i></div>
+      <div class="icon"><i class="bi bi-slash-circle icone"></i></div>
       <span class="small-box-footer">&nbsp;</span>
     </div>
   </div>
@@ -82,8 +82,8 @@ ob_start();
       </div>
 
       <div class="col-md-2 d-flex align-items-end gap-2">
-        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-search me-1"></i>Pesquisar</button>
-        <button type="button" id="btnLimpar" class="btn btn-secondary btn-sm"><i class="bi bi-eraser me-1"></i>Limpar</button>
+        <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-search me-1 icone"></i>Pesquisar</button>
+        <button type="button" id="btnLimpar" class="btn btn-secondary btn-sm"><i class="bi bi-eraser me-1 icone"></i>Limpar</button>
       </div>
     </form>
   </div>
