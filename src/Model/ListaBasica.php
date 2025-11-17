@@ -15,7 +15,8 @@ class ListaBasica
             SELECT tbl_lista_basica.lista_basica,
                    tbl_peca.peca,
                    tbl_peca.codigo,
-                   tbl_peca.descricao
+                   tbl_peca.descricao,
+                   tbl_peca.ativo
             FROM tbl_lista_basica
             INNER JOIN tbl_peca ON tbl_lista_basica.peca = tbl_peca.peca
             WHERE tbl_lista_basica.produto = {$produtoId}

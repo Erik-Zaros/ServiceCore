@@ -33,8 +33,9 @@ ob_start();
       <table class="table table-bordered mt-3" id="tabelaPecas">
         <thead>
           <tr>
-            <th>Código</th>
-            <th>Descrição</th>
+            <th>Código Peça</th>
+            <th>Descrição Peça</th>
+            <th>Status Peça(Ativa)</th>
             <th>Ações</th>
           </tr>
         </thead>

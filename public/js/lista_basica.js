@@ -41,10 +41,12 @@ $(document).ready(function () {
         $.get('../public/lista_basica/buscar_pecas_produto.php', { produto: produtoId }, function (data) {
             let html = '';
             data.forEach(p => {
+            let ativo = p.ativo == 't' ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-x-circle-fill text-danger"></i>';
                 html += `
                     <tr>
                         <td>${p.codigo}</td>
                         <td>${p.descricao}</td>
+                        <td>${ativo}</td>
                         <td>
                             <button class="btn btn-danger btn-sm removerPeca" data-id="${p.lista_basica}">Excluir</button>
                         </td>
