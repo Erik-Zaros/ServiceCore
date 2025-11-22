@@ -76,19 +76,19 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <div class="container-fluid">
       <div class="row w-100 align-items-center">
-        <div class="col-2 d-flex align-items-center pl-3">
+        <div class="col-3 col-sm-2 d-flex align-items-center pl-3">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button">
             <i class="fas fa-bars"></i>
           </a>
         </div>
 
-        <div class="col-8 text-center">
+        <div class="col-6 col-sm-8 text-center">
           <span class="navbar-text text-dark" style="font-size: 1.3rem;">
             <?= FuncoesService::buscaNomePosto($posto); ?>
           </span>
         </div>
 
-        <div class="col-2 text-right">
+        <div class="col-3 col-sm-2 text-right">
           <span class="navbar-text text-dark" style="font-size: 1.0rem;">
             <?= $pageTitle ?? '' ?>
           </span>

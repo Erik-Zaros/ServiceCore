@@ -48,7 +48,7 @@ ob_start();
         <i class="bi bi-card-list"></i> Ordens de Serviço
     </div>
     <div class="card-body">
-        <table class="table table-bordered" id="osTable">
+        <table class="table table-bordered table-striped table-hover nowrap" id="osTable">
             <thead>
                 <tr>
                     <th>Número OS</th>

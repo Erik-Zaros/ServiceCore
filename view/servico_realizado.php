@@ -48,7 +48,7 @@ ob_start();
         <i class="bi bi-card-list"></i> Produtos Cadastrados
     </div>
     <div class="card-body">
-        <table class="table table-bordered" id="servicoRealizadoTable">
+        <table class="table table-bordered table-striped table-hover nowrap" id="servicoRealizadoTable">
             <thead>
                 <tr>
                     <th>Descrição</th>

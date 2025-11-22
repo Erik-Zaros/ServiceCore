@@ -30,7 +30,7 @@ ob_start();
       <input type="text" id="buscarPeca" class="form-control mb-2" placeholder="Adicionar peça por código ou descrição...">
       <ul id="listaPecas" class="list-group" style="display:none; max-height:200px; overflow:auto;"></ul>
 
-      <table class="table table-bordered mt-3" id="tabelaPecas">
+      <table class="table table-bordered table-striped table-hover nowrap" id="tabelaPecas">
         <thead>
           <tr>
             <th>Código Peça</th>

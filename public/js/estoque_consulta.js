@@ -66,9 +66,12 @@ $(document).ready(function () {
 
         if (dados.length > 0) {
           $('#estoqueTable').DataTable({
-            language: { url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json" },
-            order: [[2, "asc"]],
-            stripeClasses: ['stripe1', 'stripe2']
+              responsive: true,
+              scrollX: true,
+              autoWidth: false,
+              language: {
+                  url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+              }
           });
         }
       },

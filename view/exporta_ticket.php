@@ -48,7 +48,7 @@ ob_start();
         <i class="bi bi-card-list"></i> OS com Agendamento (não exportadas)
     </div>
     <div class="card-body">
-        <table class="table table-bordered" id="ticketTable">
+        <table class="table table-bordered table-striped table-hover nowrap" id="ticketTable">
             <thead>
                 <tr>
                     <th>OS</th>

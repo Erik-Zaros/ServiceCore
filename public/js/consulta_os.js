@@ -3,6 +3,9 @@ $(document).ready(function () {
     carregarOs();
 
     function carregarOs() {
+        if ($.fn.DataTable.isDataTable('#osTable')) {
+            $('#osTable').DataTable().destroy();
+        }
         $.ajax({
             url: '../public/consulta_os/listar.php',
             method: 'GET',
@@ -39,13 +42,16 @@ $(document).ready(function () {
                         </tr>
                     `);
                 });
-            },
-            error: function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro',
-                    text: 'Erro ao carregar ordens de serviço!',
-                });
+                if (data.length > 0) {
+                    $('#osTable').DataTable({
+                        responsive: true,
+                        scrollX: true,
+                        autoWidth: false,
+                        language: {
+                            url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+                        }
+                    });
+                }
             }
         });
     }

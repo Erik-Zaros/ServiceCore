@@ -62,7 +62,7 @@ ob_start();
         <i class="bi bi-table"></i> Usuários Cadastrados
     </div>
     <div class="card-body">
-        <table class="table table-bordered" id="usuariosTable">
+        <table class="table table-bordered table-striped table-hover nowrap" id="usuariosTable">
             <thead>
                 <tr>
                     <th>ID</th>

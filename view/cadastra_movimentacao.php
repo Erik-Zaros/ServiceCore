@@ -118,7 +118,7 @@ ob_start();
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered align-middle mb-0" id="movTable">
+      <table class="table table-bordered table-striped table-hover nowrap" id="movTable">
         <thead>
           <tr>
             <th>#</th>

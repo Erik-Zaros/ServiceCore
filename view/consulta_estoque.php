@@ -95,7 +95,7 @@ ob_start();
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered align-middle" id="estoqueTable">
+      <table class="table table-bordered table-striped table-hover nowrap" id="estoqueTable">
         <thead>
           <tr>
             <th>Tipo</th>
@@ -124,7 +124,7 @@ ob_start();
       </div>
       <div class="modal-body">
         <div class="table-responsive">
-          <table class="table table-sm table-striped" id="movModalTable">
+          <table class="table table-bordered table-striped table-hover nowrap" id="movModalTable">
             <thead>
               <tr>
                 <th>#</th>

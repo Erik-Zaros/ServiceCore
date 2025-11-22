@@ -122,7 +122,7 @@ ob_start();
         </button>
       </div>
     </div>
-    <table class="table table-bordered" id="tabelaPecas">
+    <table class="table table-bordered table-striped table-hover nowrap" id="tabelaPecas">
       <thead>
         <tr>
           <th>Código</th>
