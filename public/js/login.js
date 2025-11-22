@@ -26,7 +26,7 @@ $(document).ready(function () {
 
 function createParticles() {
   const container = document.getElementById('bgAnimation');
-  const particleCount = 45;
+  const particleCount = 35;
 
   const toolIcons = [
     'bi-wrench',
