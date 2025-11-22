@@ -32,11 +32,15 @@ $id = $_GET['id'] ?? '';
       max-height: 95vh;
       overflow-y: auto;
     }
+
+    th {
+      background-color: #082847 !important;
+    }
   </style>
 </head>
 <body>
   <div class="scroll-area">
-    <table class="table table-bordered table-striped table-hover">
+    <table class="table table-bordered table-striped table-hover nowrap">
       <thead class="table-dark">
         <tr>
           <th>Data</th>
