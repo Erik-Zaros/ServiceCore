@@ -38,7 +38,7 @@ class RelatorioTicketController
         $res = pg_query($con, $sql);
 
         header('Content-Type: text/csv; charset=UTF-8');
-        header('Content-Disposition: attachment; filename=relatorio_peca.csv');
+        header('Content-Disposition: attachment; filename=relatorio_ticket.csv');
 
         $output = fopen('php://output', 'w');
 	

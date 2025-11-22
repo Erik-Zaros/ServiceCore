@@ -16,11 +16,11 @@ function carregarUsuarios() {
                             <td>${usuario.login}</td>
                             <td>${usuario.nome}</td>
                             <td>
-                                ${usuario.ativo === 't' || usuario.ativo === true ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>'}
+                                ${usuario.ativo === 't' || usuario.ativo === true ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-check-circle-fill text-danger"></i>'}
                             </td>
-                            <td> ${usuario.tecnico === 't' || usuario.tecnico === true ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>'}
+                            <td> ${usuario.tecnico === 't' || usuario.tecnico === true ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-check-circle-fill text-danger"></i>'}
                             </td>
-                            <td> ${usuario.master === 't' || usuario.master === true ? '<span class="badge bg-success">Sim</span>' : '<span class="badge bg-danger">Não</span>'}
+                            <td> ${usuario.master === 't' || usuario.master === true ? '<i class="bi bi-check-circle-fill text-success"></i>' : '<i class="bi bi-check-circle-fill text-danger"></i>'}
                             </td>
                             <td>
                                 <button class="btn btn-warning btn-sm editar" data-usuario="${usuario.usuario}">Editar</button>
