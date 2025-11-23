@@ -48,4 +48,28 @@ class FuncoesService
 
         return false;
     }
+
+	public static function validaOsFinalizadaCancelada($os)
+	{
+        $con   = Db::getConnection();
+        $posto = Autenticador::getPosto();
+
+		$sql = "SELECT finalizada, cancelada FROM tbl_os WHERE os = $os AND posto = $posto";
+		$res = pg_query($con, $sql);
+
+		if (pg_num_rows($res)>0) {
+			$finalizada = pg_fetch_result($res, 0, 'finalizada');
+			$cancelada = pg_fetch_result($res, 0, 'cancelada');
+
+			if ($finalizada == 't') {
+				return true;
+			}
+
+			if ($cancelada == 't') {
+				return true;
+			}
+
+			return false;
+		}
+	}
 }

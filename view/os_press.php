@@ -3,6 +3,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use App\Auth\Autenticador;
 use App\Controller\OsController;
+use App\Service\FuncoesService;
 
 Autenticador::iniciar();
 $posto = Autenticador::getPosto();
@@ -158,7 +159,14 @@ $pecas = $osInfo['pecas'] ?? [];
 
 <div class="text-end">
   <a href="consulta_os" class="btn btn-secondary btn-sm">Voltar</a>
+<?php
+
+$osFinalizadaCancelada = FuncoesService::ValidaOsFinalizadaCancelada($os);
+
+if ($osFinalizadaCancelada == false) { ?>
   <a href="cadastra_os?os=<?= $osInfo['os'] ?>" class="btn btn-primary btn-sm">Editar OS</a>
+<?php } ?>
+
 </div>
 
 <?php
