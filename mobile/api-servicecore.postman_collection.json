@@ -1,0 +1,205 @@
+{
+	"info": {
+		"_postman_id": "22f8f425-30a8-4dfe-851d-0cede27a113e",
+		"name": "api-servicecore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29492077"
+	},
+	"item": [
+		{
+			"name": "Login Técnico",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"rogeriopiveto\",\n  \"senha\": \"senha\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/login",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca Técnico",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tecnico/rogeriopiveto",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tecnico",
+						"rogeriopiveto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Ticket por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tickets/11",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tickets",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca Ticket não foram exportados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tickets",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca Ticket não exportados por data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tickets?data_inicio=2025-10-01&data_fim=2025-10-06",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tickets"
+					],
+					"query": [
+						{
+							"key": "data_inicio",
+							"value": "2025-10-01"
+						},
+						{
+							"key": "data_fim",
+							"value": "2025-10-06"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza status Ticket",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"status\": \"finalizado\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tickets/10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tickets",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Marca Ticket como exportado",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"exportado\" : true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.servicecore.134-199-226-11.nip.io/tickets/10",
+					"protocol": "https",
+					"host": [
+						"api",
+						"servicecore",
+						"134-199-226-11",
+						"nip",
+						"io"
+					],
+					"path": [
+						"tickets",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
